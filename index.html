@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESSOR - Excellence Scolaire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #062214; color: white; margin: 0; scroll-behavior: smooth; }
+        .gold-text { color: #C5A059; }
+        .gold-bg { background-color: #C5A059; }
+        .gold-border { border-color: #C5A059; }
+        .hidden-section { display: none !important; }
+        .selected-option { background-color: #C5A059 !important; color: #062214 !important; border-color: white !important; }
+        .correct { background-color: #10B981 !important; color: white !important; border-color: #10B981 !important; }
+        .incorrect { background-color: #EF4444 !important; color: white !important; border-color: #EF4444 !important; }
+        
+        .q-dot { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid #C5A059; cursor: pointer; font-size: 0.75rem; transition: 0.3s; }
+        .q-dot.active { background-color: #C5A059; color: #062214; font-weight: bold; border-color: white; }
+        .q-dot.answered { border-color: #10B981; color: #10B981; }
+
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <header class="sticky top-0 z-50 bg-[#062214] border-b border-[#C5A059] p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="showSection('home')">
+                <span class="text-3xl font-bold gold-text">ESSOR</span>
+                <span class="text-sm text-gray-300">Excellence Scolaire</span>
+            </div>
+            <nav class="hidden md:flex gap-8 font-medium">
+                <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059] transition">Accueil</a>
+                <a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059] transition">Quiz</a>
+                <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059] transition">À propos</a>
+                <a href="javascript:void(0)" onclick="showSection('contact')" class="hover:text-[#C5A059] transition">Contact</a>
+            </nav>
+            <div class="md:hidden">
+                <button onclick="toggleMenu()" class="text-white"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <nav id="mobile-menu" class="hidden flex flex-col gap-4 mt-4 text-center border-t border-gray-800 pt-4">
+            <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059]">Accueil</a>
+            <a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059]">Quiz</a>
+            <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059]">À propos</a>
+            <a href="javascript:void(0)" onclick="showSection('contact')" class="hover:text-[#C5A059]">Contact</a>
+        </nav>
+    </header>
+
+    <section id="home" class="p-10 min-h-[60vh] flex flex-col items-center justify-center text-center fade-in">
+        <h1 class="text-5xl md:text-6xl font-bold gold-text mb-6">Prêt pour l'Excellence ?</h1>
+        <p class="text-xl max-w-2xl text-gray-200 mb-8">Des quiz intensifs pour réussir votre 6ème année primaire.</p>
+        <button onclick="showSection('quiz-hub')" class="gold-bg text-black font-bold py-4 px-12 rounded-full text-xl hover:scale-105 transition shadow-lg">Choisir une matière</button>
+    </section>
+
+    <section id="quiz-hub" class="hidden-section container mx-auto py-16 px-6 fade-in text-center">
+        <h2 class="text-3xl font-bold gold-text mb-10">Matières Scolaires</h2>
+        <div id="subjects-container" class="flex flex-col gap-6 max-w-2xl mx-auto"></div>
+    </section>
+
+    <section id="french-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
+        <h2 class="text-3xl font-bold gold-text mb-10">Français</h2>
+        <div class="flex flex-col gap-4 max-w-xs mx-auto">
+            <button onclick="startQuiz('conditionnel')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Conditionnel Présent</button>
+            <button onclick="startQuiz('futur')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Futur Simple</button>
+            <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-4 underline">Retour</button>
+        </div>
+    </section>
+
+    <section id="maths-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
+        <h2 class="text-3xl font-bold gold-text mb-10">Mathématiques</h2>
+        <div class="flex flex-col gap-4 max-w-xs mx-auto">
+            <button onclick="startQuiz('calcul')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Calcul Mental (100 Q)</button>
+            <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-4 underline">Retour</button>
+        </div>
+    </section>
+
+    <section id="quiz-player" class="hidden-section container mx-auto py-8 px-4 fade-in">
+        <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+            <div class="lg:w-1/4 bg-[#0a351f] border gold-border p-4 rounded-2xl h-fit">
+                <h3 id="sidebar-title" class="gold-text font-bold mb-4 text-center border-b border-gray-700 pb-2 italic text-sm">Questions</h3>
+                <div id="question-sidebar" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-[450px] p-2 custom-scrollbar"></div>
+                <button onclick="restartCurrentQuiz()" class="w-full mt-6 gold-border border text-xs py-2 rounded hover:gold-bg hover:text-black transition uppercase font-bold">
+                    <i class="fas fa-sync-alt mr-2"></i>Recommencer
+                </button>
+            </div>
+
+            <div class="lg:w-3/4 bg-[#0a351f] border-2 gold-border p-8 rounded-2xl shadow-2xl relative">
+                <div class="flex justify-between items-center mb-6">
+                    <span id="quiz-title" class="gold-text font-bold uppercase text-sm"></span>
+                    <span id="question-count" class="text-gray-400 font-bold"></span>
+                </div>
+                <p id="question-text" class="text-2xl mb-8 font-semibold min-h-[80px]"></p>
+                <div id="options-container" class="flex flex-col gap-4"></div>
+                <p id="feedback" class="mt-6 text-center font-bold text-xl h-8"></p>
+                <div class="flex justify-between gap-4 mt-10">
+                    <button id="prev-btn" onclick="prevQuestion()" class="flex-1 border-2 gold-border text-white py-4 rounded-xl hover:bg-gray-800 transition"><i class="fas fa-chevron-left mr-2"></i> Précédent</button>
+                    <button id="validate-btn" onclick="validateAnswer()" class="flex-[2] bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition">Valider</button>
+                    <button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition">Suivant <i class="fas fa-chevron-right ml-2"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="hidden-section p-10 min-h-[60vh] flex flex-col items-center justify-center text-center fade-in">
+        <h2 class="text-4xl font-bold gold-text mb-6">À propos d'ESSOR</h2>
+        <p class="text-lg max-w-3xl text-gray-200">ESSOR est une plateforme dédiée à l'excellence scolaire pour les élèves de 6ème année primaire au Maroc.</p>
+    </section>
+
+    <section id="contact" class="hidden-section p-10 min-h-[60vh] flex flex-col items-center justify-center text-center fade-in">
+        <h2 class="text-4xl font-bold gold-text mb-6">Contactez-nous</h2>
+        <form class="max-w-md w-full bg-[#0a351f] p-8 rounded-2xl border-2 gold-border">
+            <input type="text" placeholder="Nom" class="w-full p-4 mb-4 rounded-xl bg-transparent border gold-border text-white outline-none">
+            <textarea placeholder="Message" class="w-full p-4 mb-4 rounded-xl bg-transparent border gold-border text-white outline-none" rows="4"></textarea>
+            <button type="submit" class="w-full gold-bg text-black font-bold py-4 rounded-xl hover:opacity-90 transition">Envoyer</button>
+        </form>
+    </section>
+
+    <footer class="bg-[#062214] border-t-4 border-[#C5A059] pt-16 pb-8 mt-20">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            <div><h3 class="gold-text font-bold mb-6 italic tracking-widest uppercase text-sm">Navigation</h3>
+                <ul class="space-y-3 text-gray-300">
+                    <li><a href="#" onclick="showSection('home')" class="hover:text-[#C5A059]">Accueil</a></li>
+                    <li><a href="#" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059]">Nos Quiz</a></li>
+                </ul>
+            </div>
+            <div><h3 class="gold-text font-bold mb-6 italic tracking-widest uppercase text-sm">Contact Direct</h3>
+                <p class="text-gray-300">gallalabdellah27@gmail.com</p>
+                <p class="text-gray-300">0670098925 / 0605333942</p>
+            </div>
+            <div><h3 class="gold-text font-bold mb-6 italic tracking-widest uppercase text-sm">Suivez-nous</h3>
+                <div class="flex justify-center md:justify-start gap-6 text-4xl">
+                    <a href="https://www.instagram.com/centre_l.essor/" target="_blank" class="hover:text-pink-500 transition">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/212670098925?text=Bonjour%20ESSOR,%20je%20souhaite%20avoir%20des%20informations." target="_blank" class="hover:text-green-500 transition">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="hover:text-blue-500 transition"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12 text-gray-500 text-sm">Copyright © 2026 ESSOR - Tous droits réservés.</div>
+    </footer>
+
+    <script>
+        const subjectsConfig = [
+            { id: 'french', title: 'Français', icon: 'fa-language', action: "showSection('french-menu')" },
+            { id: 'maths', title: 'Mathématiques', icon: 'fa-calculator', action: "showSection('maths-menu')" }
+        ];
+
+        const generateMathQuiz = () => {
+            const math = [];
+            for(let i=1; i<=100; i++) {
+                const types = ['+', '-', '*'];
+                const type = types[Math.floor(Math.random()*types.length)];
+                let a, b, res;
+                if(type==='+'){ a=Math.floor(Math.random()*50); b=Math.floor(Math.random()*50); res=a+b; }
+                else if(type==='-'){ a=Math.floor(Math.random()*60+20); b=Math.floor(Math.random()*20); res=a-b; }
+                else { a=Math.floor(Math.random()*12); b=Math.floor(Math.random()*10); res=a*b; }
+                const opts = [res, res+Math.floor(Math.random()*5+1), res-Math.floor(Math.random()*5+1)].sort(() => Math.random()-0.5);
+                math.push({ q: `Calcule : ${a} ${type} ${b} = ?`, options: opts.map(String), correct: opts.indexOf(res), userAnswer: null });
+            }
+            return math;
+        };
+
+        const quizData = {
+            conditionnel: Array.from({length: 50}, (_, i) => ({
+                q: `Phrase n°${i+1} : Si j'avais le choix, je (choisir) ___ cette option.`,
+                options: ["choisirais", "choisira", "choisirait"],
+                correct: 0,
+                userAnswer: null
+            })),
+            futur: Array.from({length: 50}, (_, i) => ({
+                q: `Phrase n°${i+1} : Demain, nous (finir) ___ ce travail.`,
+                options: ["finirons", "finirons", "finiront"],
+                correct: 0,
+                userAnswer: null
+            })),
+            calcul: generateMathQuiz()
+        };
+
+        let currentQuizKey = '', currentQuiz = [], currentQuestionIndex = 0;
+
+        function renderSubjects() {
+            const container = document.getElementById('subjects-container');
+            container.innerHTML = subjectsConfig.map(sub => {
+                let percent = Math.min(Math.round(((parseInt(localStorage.getItem('p_'+sub.id)||0))/50)*100),100);
+                return `<div class="bg-[#0a351f] p-6 rounded-2xl border-2 gold-border flex items-center gap-6 cursor-pointer hover:bg-[#0d4629] transition transform hover:scale-102" onclick="${sub.action}">
+                    <i class="fas ${sub.icon} text-4xl gold-text"></i>
+                    <div class="flex-1 text-left">
+                        <h3 class="text-xl font-bold">${sub.title}</h3>
+                        <div class="w-full bg-gray-700 rounded-full h-2 my-2"><div class="gold-bg h-2 rounded-full" style="width: ${percent}%"></div></div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById(id).classList.remove('hidden-section');
+            if(id === 'quiz-hub') renderSubjects();
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo(0,0);
+        }
+
+        function startQuiz(type) {
+            currentQuizKey = type;
+            currentQuiz = quizData[type];
+            currentQuestionIndex = 0;
+            document.getElementById('sidebar-title').innerText = `Questions (1-${currentQuiz.length})`;
+            renderSidebar();
+            showSection('quiz-player');
+            document.getElementById('quiz-title').innerText = type.replace('_',' ');
+            loadQuestion();
+        }
+
+        function renderSidebar() {
+            const sidebar = document.getElementById('question-sidebar');
+            sidebar.innerHTML = currentQuiz.map((q, i) => `<div id="dot-${i}" class="q-dot ${q.userAnswer!==null?'answered':''}" onclick="goToQuestion(${i})">${i+1}</div>`).join('');
+        }
+
+        function loadQuestion() {
+            const q = currentQuiz[currentQuestionIndex];
+            document.getElementById('question-count').innerText = `${currentQuestionIndex + 1} / ${currentQuiz.length}`;
+            document.getElementById('question-text').innerText = q.q;
+            document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
+            document.getElementById(`dot-${currentQuestionIndex}`).classList.add('active');
+            
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            document.getElementById('feedback').innerText = '';
+
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "border-2 gold-border p-4 rounded-xl text-left hover:bg-[#0d4629] transition w-full";
+                if(q.userAnswer !== null) {
+                    if(i === q.correct) btn.classList.add('correct');
+                    else if(i === q.userAnswer) btn.classList.add('incorrect');
+                } else if(q.selected === i) btn.classList.add('selected-option');
+                btn.innerText = opt;
+                btn.onclick = () => { if(q.userAnswer===null) { document.querySelectorAll('#options-container button').forEach(b=>b.classList.remove('selected-option')); btn.classList.add('selected-option'); q.selected=i; }};
+                container.appendChild(btn);
+            });
+            document.getElementById('prev-btn').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
+            document.getElementById('validate-btn').style.display = q.userAnswer === null ? 'block' : 'none';
+        }
+
+        function validateAnswer() {
+            const q = currentQuiz[currentQuestionIndex];
+            if (q.selected === undefined) return alert("Sélectionne une réponse !");
+            q.userAnswer = q.selected;
+            document.getElementById(`dot-${currentQuestionIndex}`).classList.add('answered');
+            document.getElementById('feedback').innerText = q.userAnswer === q.correct ? "Excellent ! ✅" : "Mauvaise réponse ! ❌";
+            document.getElementById('feedback').style.color = q.userAnswer === q.correct ? "#10B981" : "#EF4444";
+            loadQuestion();
+        }
+
+        function nextQuestion() { if(currentQuestionIndex < currentQuiz.length-1) { currentQuestionIndex++; loadQuestion(); } else { alert("Félicitations ! Quiz terminé."); showSection('quiz-hub'); } }
+        function prevQuestion() { if(currentQuestionIndex > 0) { currentQuestionIndex--; loadQuestion(); } }
+        function goToQuestion(i) { currentQuestionIndex = i; loadQuestion(); }
+        function restartCurrentQuiz() { if(confirm("Effacer les réponses et recommencer ?")) { currentQuiz.forEach(q => { q.userAnswer = null; delete q.selected; }); startQuiz(currentQuizKey); } }
+        function toggleMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+    </script>
+</body>
+</html>
