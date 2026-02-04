@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESSOR - Excellence Scolaire | Plateforme de Révision</title>
+    <title>ESSOR - Excellence Scolaire</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -14,139 +14,171 @@
         .gold-border { border-color: #C5A059; }
         .hidden-section { display: none !important; }
         .selected-option { background-color: #C5A059 !important; color: #062214 !important; border-color: white !important; }
-        .q-dot { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid #C5A059; cursor: pointer; font-size: 0.75rem; transition: 0.3s; }
+        
+        /* Navigation & Progression */
+        .q-dot { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #C5A059; cursor: pointer; font-size: 0.7rem; }
         .q-dot.active { background-color: #C5A059; color: #062214; font-weight: bold; border-color: white; }
         .q-dot.answered { border-color: #10B981; color: #10B981; }
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .content-block { max-width: 900px; margin: 0 auto; line-height: 1.8; color: #e2e8f0; text-align: left; }
+        .nav-btn { color: #C5A059; padding: 5px 10px; border-radius: 5px; transition: 0.3s; }
+        .nav-btn:hover { background: rgba(197, 160, 89, 0.2); }
+        
+        /* NOUVEAUX STYLES PROFESSIONNELS */
+        .hero-gradient { background: radial-gradient(circle at center, rgba(197, 160, 89, 0.1) 0%, transparent 70%); }
+        .btn-glow:hover { box-shadow: 0 0 20px rgba(197, 160, 89, 0.4); transform: scale(1.05); }
+        .back-btn { border: 1px solid #C5A059; color: #C5A059; padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+        .back-btn:hover { background: #C5A059; color: #062214; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <header class="sticky top-0 z-50 bg-[#062214] border-b border-[#C5A059] p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showSection('home')">
-                <span class="text-3xl font-bold gold-text">ESSOR</span>
-                <span class="text-sm text-gray-300 hidden sm:inline">Excellence Scolaire</span>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1 border-r border-gray-700 pr-4 mr-2">
+                    <button onclick="goBack()" class="nav-btn"><i class="fas fa-arrow-left"></i></button>
+                    <button onclick="location.reload()" class="nav-btn"><i class="fas fa-sync-alt"></i></button>
+                    <button onclick="goForward()" class="nav-btn"><i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                    <span class="text-2xl md:text-3xl font-bold gold-text">ESSOR</span>
+                </div>
             </div>
             <nav class="hidden md:flex gap-8 font-medium">
-                <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059] transition">Accueil</a>
-                <a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059] transition">Quiz</a>
-                <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059] transition">À propos</a>
-                <a href="javascript:void(0)" onclick="showSection('privacy')" class="hover:text-[#C5A059] transition">Confidentialité</a>
+                <a href="javascript:void(0)" onclick="navigateTo('home')" class="hover:text-[#C5A059]">Accueil</a>
+                <a href="javascript:void(0)" onclick="navigateTo('quiz-hub')" class="hover:text-[#C5A059]">Quiz</a>
+                <a href="javascript:void(0)" onclick="navigateTo('about')" class="hover:text-[#C5A059]">À propos</a>
             </nav>
             <div class="md:hidden">
                 <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-white"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-        <nav id="mobile-menu" class="hidden flex flex-col gap-4 mt-4 text-center border-t border-gray-800 pt-4 md:hidden">
-            <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059]">Accueil</a>
-            <a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059]">Quiz</a>
-            <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059]">À propos</a>
-        </nav>
     </header>
 
     <main>
-        <section id="home" class="p-10 min-h-[60vh] flex flex-col items-center justify-center text-center fade-in">
-            <h1 class="text-5xl md:text-6xl font-bold gold-text mb-6 italic">Prêt pour l'Excellence ?</h1>
-            <p class="text-xl max-w-2xl text-gray-200 mb-8">Révisez votre programme de 6ème année avec nos questions interactives.</p>
-            <button onclick="showSection('quiz-hub')" class="gold-bg text-black font-bold py-4 px-12 rounded-full text-xl hover:scale-105 transition shadow-lg">Accéder aux Quiz</button>
+        <section id="home" class="p-10 min-h-[75vh] flex flex-col items-center justify-center text-center hero-gradient">
+            <div class="mb-4 inline-block px-4 py-1 rounded-full border border-[#C5A059] text-[#C5A059] text-xs font-bold tracking-widest uppercase">
+                Plateforme Officielle - 6ème Année
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 italic leading-tight">
+                Visez l'<span class="gold-text">Excellence</span> <br>Scolaire
+            </h1>
+            <p class="text-lg md:text-xl max-w-2xl text-gray-300 mb-10 font-light leading-relaxed">
+                Rejoignez des milliers d'élèves qui s'entraînent quotidiennement avec nos <span class="text-white font-semibold">séries intensives</span> de 50 à 100 questions.
+            </p>
+            <div class="flex flex-col md:flex-row gap-6">
+                <button onclick="navigateTo('quiz-hub')" class="gold-bg text-black font-bold py-4 px-14 rounded-full text-xl btn-glow transition-all">
+                    Démarrer la Révision
+                </button>
+                <button onclick="navigateTo('about')" class="border-2 gold-border gold-text font-bold py-4 px-14 rounded-full text-xl hover:bg-[#C5A059]/10 transition-all">
+                    Découvrir l'E-Centre
+                </button>
+            </div>
+            <div class="mt-16 flex gap-10 text-gray-400 text-sm uppercase tracking-tighter">
+                <div class="flex flex-col"><span class="text-white font-bold text-xl">50+</span> Français</div>
+                <div class="flex flex-col"><span class="text-white font-bold text-xl">100+</span> Mathématiques</div>
+                <div class="flex flex-col"><span class="text-white font-bold text-xl">2026</span> Actualisé</div>
+            </div>
         </section>
 
-        <section id="quiz-hub" class="hidden-section container mx-auto py-16 px-6 fade-in text-center">
-            <h2 class="text-3xl font-bold gold-text mb-10 uppercase tracking-widest">Matières Scolaires</h2>
+        <section id="quiz-hub" class="hidden-section container mx-auto py-20 px-6 text-center">
+            <h2 class="text-3xl font-bold gold-text mb-12 uppercase tracking-[0.3em]">Domaines d'Étude</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div onclick="showSection('french-menu')" class="bg-[#0a351f] p-10 rounded-3xl border-2 gold-border cursor-pointer hover:bg-[#0d4629] transition transform hover:-translate-y-2">
-                    <i class="fas fa-book-open text-5xl gold-text mb-4"></i>
-                    <h3 class="text-2xl font-bold uppercase">Français</h3>
+                <div onclick="navigateTo('french-menu')" class="group bg-[#0a351f] p-10 rounded-[2.5rem] border-2 gold-border cursor-pointer hover:bg-[#0d4629] transition-all transform hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-[#C5A059]/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#C5A059] group-hover:text-black transition-all">
+                        <i class="fas fa-book-open text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase tracking-wide">Langue Française</h3>
+                    <p class="text-gray-400 mt-2 text-sm">Conjugaison & Grammaire</p>
                 </div>
-                <div onclick="showSection('maths-menu')" class="bg-[#0a351f] p-10 rounded-3xl border-2 gold-border cursor-pointer hover:bg-[#0d4629] transition transform hover:-translate-y-2">
-                    <i class="fas fa-calculator text-5xl gold-text mb-4"></i>
-                    <h3 class="text-2xl font-bold uppercase">Mathématiques</h3>
+                <div onclick="navigateTo('maths-menu')" class="group bg-[#0a351f] p-10 rounded-[2.5rem] border-2 gold-border cursor-pointer hover:bg-[#0d4629] transition-all transform hover:-translate-y-2">
+                    <div class="w-20 h-20 bg-[#C5A059]/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-[#C5A059] group-hover:text-black transition-all">
+                        <i class="fas fa-calculator text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold uppercase tracking-wide">Mathématiques</h3>
+                    <p class="text-gray-400 mt-2 text-sm">Calcul & Logique</p>
                 </div>
             </div>
         </section>
 
-        <section id="french-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
-            <h2 class="text-3xl font-bold gold-text mb-10">Conjugaison & Grammaire</h2>
-            <div class="flex flex-col gap-4 max-w-sm mx-auto">
-                <button onclick="openNameModal('evaluation')" class="bg-red-700 py-5 rounded-2xl font-bold border-2 border-white hover:bg-red-800 transition shadow-xl mb-4 text-lg italic">📝 ÉVALUATION (30 Questions)</button>
-                <button onclick="startQuiz('present')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition uppercase text-sm tracking-widest">Présent de l'indicatif</button>
-                <button onclick="startQuiz('futur')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition uppercase text-sm tracking-widest">Futur Simple</button>
-                <button onclick="startQuiz('conditionnel')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition uppercase text-sm tracking-widest">Conditionnel Présent</button>
-                <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-6 underline">Retour aux matières</button>
-            </div>
-        </section>
-
-        <section id="maths-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
-            <h2 class="text-3xl font-bold gold-text mb-10">Mathématiques</h2>
-            <div class="flex flex-col gap-4 max-w-sm mx-auto">
-                <button onclick="startQuiz('calcul')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition uppercase tracking-widest">Calcul Mental</button>
-                <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-6 underline">Retour aux matières</button>
-            </div>
-        </section>
-
-        <section id="name-modal" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
-            <div class="max-w-md mx-auto bg-[#0a351f] p-8 rounded-2xl border-2 gold-border shadow-2xl">
-                <h3 class="text-xl font-bold gold-text mb-6">IDENTIFICATION ÉLÈVE</h3>
-                <div id="time-lock-msg" class="hidden mb-4 p-4 bg-red-900/50 border border-red-500 rounded text-sm text-white italic">
-                    ⚠️ L'épreuve sera disponible à 10:45.
+        <section id="french-menu" class="hidden-section container mx-auto py-20 px-6 text-center">
+            <h2 class="text-3xl font-bold gold-text mb-4">Séries de Français</h2>
+            <p class="text-gray-400 mb-10 italic">Choisissez votre module d'entraînement</p>
+            <div class="flex flex-col gap-6 max-w-md mx-auto">
+                <button onclick="startQuiz('futur', 50)" class="bg-[#0a351f] border-2 gold-border py-5 rounded-2xl font-bold hover:bg-[#C5A059] hover:text-black transition-all flex justify-between px-8 items-center group">
+                    <span>Futur Simple</span>
+                    <span id="perc-futur" class="bg-black/50 text-[#C5A059] px-3 py-1 rounded-lg text-xs border border-[#C5A059]/30">0%</span>
+                </button>
+                <button onclick="startQuiz('conditionnel', 50)" class="bg-[#0a351f] border-2 gold-border py-5 rounded-2xl font-bold hover:bg-[#C5A059] hover:text-black transition-all flex justify-between px-8 items-center group">
+                    <span>Conditionnel Présent</span>
+                    <span id="perc-conditionnel" class="bg-black/50 text-[#C5A059] px-3 py-1 rounded-lg text-xs border border-[#C5A059]/30">0%</span>
+                </button>
+                <div class="mt-8">
+                    <button onclick="navigateTo('quiz-hub')" class="back-btn">
+                        <i class="fas fa-chevron-left"></i> Retour aux domaines
+                    </button>
                 </div>
-                <input type="text" id="student-name-input" placeholder="Ton Prénom et Nom" class="w-full p-4 rounded-lg bg-black border gold-border mb-6 text-white outline-none text-center font-bold">
-                <button id="confirm-eval-btn" onclick="confirmStart()" class="w-full gold-bg text-black font-bold py-4 rounded-xl uppercase hover:brightness-110 transition">Lancer l'évaluation</button>
-                <button onclick="showSection('french-menu')" class="mt-4 text-gray-500 text-sm italic">Annuler</button>
             </div>
         </section>
 
-        <section id="quiz-player" class="hidden-section container mx-auto py-8 px-4 fade-in">
+        <section id="maths-menu" class="hidden-section container mx-auto py-20 px-6 text-center">
+            <h2 class="text-3xl font-bold gold-text mb-4">Séries de Mathématiques</h2>
+            <p class="text-gray-400 mb-10 italic">Concentration et précision requises</p>
+            <div class="flex flex-col gap-6 max-w-md mx-auto">
+                <button onclick="startQuiz('calcul', 100)" class="bg-[#0a351f] border-2 gold-border py-6 rounded-2xl font-bold hover:bg-[#C5A059] hover:text-black transition-all flex justify-between px-8 items-center">
+                    <span>Module de Calcul Mental (100 Qs)</span>
+                    <span id="perc-calcul" class="bg-black/50 text-[#C5A059] px-3 py-1 rounded-lg text-xs border border-[#C5A059]/30">0%</span>
+                </button>
+                <div class="mt-8">
+                    <button onclick="navigateTo('quiz-hub')" class="back-btn">
+                        <i class="fas fa-chevron-left"></i> Retour aux domaines
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz-player" class="hidden-section container mx-auto py-8 px-4">
             <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
                 <div class="lg:w-1/4 bg-[#0a351f] border gold-border p-4 rounded-2xl h-fit">
-                    <h3 id="sidebar-name" class="gold-text font-bold mb-4 text-center border-b border-gray-700 pb-2">Élève</h3>
-                    <div id="question-sidebar" class="grid grid-cols-5 gap-2 p-2 max-h-[400px] overflow-y-auto custom-scrollbar"></div>
+                    <h3 class="gold-text font-bold mb-4 text-center border-b border-gray-700 pb-2 italic text-xs uppercase tracking-widest">Progression</h3>
+                    <div id="question-sidebar" class="grid grid-cols-5 gap-2 p-2 max-h-[500px] overflow-y-auto custom-scrollbar"></div>
                 </div>
-                <div class="lg:w-3/4 bg-[#0a351f] border-2 gold-border p-8 rounded-3xl relative shadow-2xl min-h-[500px] flex flex-col">
+                <div class="lg:w-3/4 bg-[#0a351f] border-2 gold-border p-8 rounded-[2rem] relative shadow-2xl min-h-[500px] flex flex-col">
                     <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
                         <span id="quiz-title-display" class="gold-text font-bold tracking-widest text-sm uppercase"></span>
-                        <span id="question-count" class="text-gray-400 font-bold bg-black/40 px-3 py-1 rounded-full"></span>
+                        <span id="question-count" class="text-gray-400 font-bold bg-black/40 px-3 py-1 rounded-full text-xs"></span>
                     </div>
                     <div id="question-content" class="flex-grow">
-                        <p id="question-text" class="text-2xl mb-10 font-medium leading-relaxed"></p>
+                        <p id="question-text" class="text-2xl mb-10 font-medium"></p>
                         <div id="options-container" class="flex flex-col gap-4"></div>
-                        <div id="lock-msg" class="hidden mt-12 p-8 bg-blue-900/40 border border-blue-400 rounded-2xl text-center fade-in">
-                            <i class="fas fa-check-circle text-4xl mb-4 text-blue-400"></i>
-                            <p class="text-xl">Copie enregistrée avec succès ! <br>Ton score sera disponible à <span class="font-bold underline">11:15</span>.</p>
-                        </div>
                     </div>
                     <div class="flex justify-between gap-4 mt-10">
-                        <button id="prev-btn" onclick="prevQuestion()" class="flex-1 border-2 gold-border py-4 rounded-xl hover:bg-white/5 transition">Précédent</button>
-                        <button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition">Suivant</button>
-                        <button id="finish-btn" onclick="handleFinish()" class="hidden flex-1 bg-green-600 font-bold py-4 rounded-xl text-white hover:bg-green-700 transition">Valider l'épreuve</button>
+                        <button onclick="prevQuestion()" class="flex-1 border-2 gold-border py-4 rounded-xl hover:bg-white/5 transition-all uppercase text-xs font-bold">Précédent</button>
+                        <button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-white text-black font-bold py-4 rounded-xl btn-glow transition-all uppercase text-xs">Suivant</button>
+                        <button id="finish-btn" onclick="handleFinish()" class="hidden flex-1 bg-green-600 font-bold py-4 rounded-xl text-white uppercase text-xs">Terminer la série</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="results-screen" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
-            <div class="max-w-xl mx-auto bg-[#0a351f] border-2 gold-border p-12 rounded-[2rem] shadow-2xl">
-                <h2 class="text-4xl font-bold gold-text mb-8 italic uppercase">Bilan de l'épreuve</h2>
-                <p class="text-xl mb-4 text-gray-300 italic">Élève : <span id="final-name" class="font-bold text-white"></span></p>
-                <div class="text-6xl font-bold gold-bg text-black py-6 rounded-3xl mb-8 shadow-inner" id="final-score"></div>
-                <button onclick="location.reload()" class="border gold-border px-8 py-2 rounded-full text-sm hover:bg-gold-500 hover:text-black transition">Quitter</button>
+        <section id="results-screen" class="hidden-section container mx-auto py-16 px-6 text-center">
+            <div class="max-w-xl mx-auto bg-[#0a351f] border-2 gold-border p-12 rounded-[2.5rem]">
+                <h2 class="text-3xl font-bold gold-text mb-8 uppercase italic">Série Terminée</h2>
+                <div class="text-6xl font-bold gold-bg text-black py-8 rounded-3xl mb-10 shadow-inner" id="final-score"></div>
+                <button onclick="navigateTo('quiz-hub')" class="back-btn px-10 py-4">
+                    Choisir un autre module
+                </button>
             </div>
         </section>
 
-        <section id="about" class="hidden-section container mx-auto py-16 px-6 fade-in">
-            <h2 class="text-3xl font-bold gold-text mb-8 text-center uppercase tracking-widest">À propos d'ESSOR</h2>
-            <div class="content-block bg-[#0a351f] p-10 rounded-3xl border gold-border shadow-xl">
-                <p>ESSOR est une plateforme éducative conçue pour accompagner les élèves de la 6ème année primaire vers l'excellence. Notre approche ludique et interactive permet de consolider les acquis en conjugaison, grammaire et mathématiques à travers des évaluations chronométrées et des quiz de révision adaptés au programme national.</p>
-            </div>
-        </section>
-
-        <section id="privacy" class="hidden-section container mx-auto py-16 px-6 fade-in">
-            <h2 class="text-3xl font-bold gold-text mb-8 text-center uppercase tracking-widest">Confidentialité</h2>
-            <div class="content-block bg-[#0a351f] p-10 rounded-3xl border gold-border shadow-xl">
-                <p>Nous respectons la vie privée de nos élèves. Aucune donnée personnelle n'est collectée de manière permanente sur nos serveurs. Le nom saisi au début des quiz est uniquement utilisé pour l'affichage local des résultats et n'est pas stocké après la fermeture de la page.</p>
+        <section id="about" class="hidden-section container mx-auto py-20 px-6">
+            <div class="max-w-3xl mx-auto bg-[#0a351f] p-12 rounded-[2.5rem] border-2 gold-border text-center">
+                <h2 class="text-3xl font-bold gold-text mb-8 uppercase tracking-widest italic">Notre Mission</h2>
+                <p class="text-gray-200 leading-loose">ESSOR est un E-Centre d'Excellence Scolaire dédié à l'accompagnement des futurs collégiens. Notre plateforme interactive offre un environnement de révision stimulant pour maîtriser les fondamentaux du programme marocain de 6ème année.</p>
+                <div class="mt-10">
+                    <button onclick="navigateTo('home')" class="back-btn">Retour à l'accueil</button>
+                </div>
             </div>
         </section>
     </main>
@@ -156,9 +188,9 @@
             <div>
                 <h3 class="gold-text font-bold mb-6 italic uppercase text-sm tracking-widest">Navigation</h3>
                 <ul class="space-y-3 text-gray-300">
-                    <li><a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059]">Accueil</a></li>
-                    <li><a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059]">Nos Quiz</a></li>
-                    <li><a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059]">À propos</a></li>
+                    <li><a href="javascript:void(0)" onclick="navigateTo('home')" class="hover:text-[#C5A059]">Accueil</a></li>
+                    <li><a href="javascript:void(0)" onclick="navigateTo('quiz-hub')" class="hover:text-[#C5A059]">Nos Quiz</a></li>
+                    <li><a href="javascript:void(0)" onclick="navigateTo('about')" class="hover:text-[#C5A059]">À propos</a></li>
                 </ul>
             </div>
             <div>
@@ -174,165 +206,100 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-12 text-gray-500 text-sm">Copyright © 2026 ESSOR - Excellence Scolaire. Tous droits réservés.</div>
+        <div class="text-center mt-12 text-gray-500 text-sm italic tracking-widest uppercase">Copyright © 2026 ESSOR - Excellence Scolaire</div>
     </footer>
 
     <script>
-        const quizzes = {
-            evaluation: [
-                // 10 PASSÉ COMPOSÉ
-                { q: "Hier, nous (manger) ___ ensemble.", options: ["avons mangé", "avez mangé", "ont mangé"], correct: 0 },
-                { q: "Tu (finir) ___ ton repas.", options: ["as fini", "a fini", "ai fini"], correct: 0 },
-                { q: "Elles (partir) ___ très tôt.", options: ["sont parties", "est partie", "sont partis"], correct: 0 },
-                { q: "Il (avoir) ___ de la chance.", options: ["a eu", "as eu", "ai eu"], correct: 0 },
-                { q: "J' (être) ___ malade hier.", options: ["ai été", "as été", "a été"], correct: 0 },
-                { q: "Vous (réussir) ___ le test.", options: ["avez réussi", "avons réussi", "ont réussi"], correct: 0 },
-                { q: "Le chat (boire) ___ son lait.", options: ["a bu", "as bu", "est bu"], correct: 0 },
-                { q: "Elles (choisir) ___ la robe.", options: ["ont choisi", "avez choisi", "a choisi"], correct: 0 },
-                { q: "Nous (monter) ___ les valises.", options: ["avons monté", "suis monté", "ont monté"], correct: 0 },
-                { q: "Tu (voir) ___ le film ?", options: ["as vu", "a vu", "ai vu"], correct: 0 },
-                // 3 TOUT / TOUS...
-                { q: "___ les garçons jouent.", options: ["Tous", "Tout", "Toutes"], correct: 0 },
-                { q: "La ___ journée est passée.", options: ["toute", "tout", "toutes"], correct: 0 },
-                { q: "Ils sont ___ contents.", options: ["tous", "tout", "toutes"], correct: 0 },
-                // 5 FUTUR SIMPLE
-                { q: "Demain, je (parler) ___.", options: ["parlerai", "parlerais", "parlera"], correct: 0 },
-                { q: "Tu (finir) ___ plus tard.", options: ["finiras", "finira", "finirons"], correct: 0 },
-                { q: "Nous (aller) ___ au cinéma.", options: ["irons", "irez", "iront"], correct: 0 },
-                { q: "Vous (être) ___ grands.", options: ["serez", "serons", "seras"], correct: 0 },
-                { q: "Ils (avoir) ___ faim.", options: ["auront", "auras", "aurez"], correct: 0 },
-                // 5 CONDITIONNEL PRÉSENT
-                { q: "Si j'avais de l'argent, j' (acheter) ___ un vélo.", options: ["achèterais", "achèterai", "achète"], correct: 0 },
-                { q: "Tu (vouloir) ___ m'aider ?", options: ["voudrais", "voudras", "voulais"], correct: 0 },
-                { q: "Nous (aimer) ___ sortir.", options: ["aimerions", "aimerons", "aimons"], correct: 0 },
-                { q: "Elle (chanter) ___ si elle osait.", options: ["chanterait", "chantera", "chante"], correct: 0 },
-                { q: "Vous (être) ___ mieux ici.", options: ["seriez", "serez", "seriez"], correct: 0 },
-                // 7 COMPLÉMENTS
-                { q: "Je regarde 'la télévision'. Quelle est la fonction ?", options: ["COD", "COI", "Sujet"], correct: 0 },
-                { q: "Il parle 'à sa mère'. Quelle est la fonction ?", options: ["COI", "COD", "CC"], correct: 0 },
-                { q: "Elle offre un cadeau 'à son ami'.", options: ["COI", "COD", "CC"], correct: 0 },
-                { q: "Le chat mange 'la souris'.", options: ["COD", "COI", "Sujet"], correct: 0 },
-                { q: "Nous téléphonons 'au médecin'.", options: ["COI", "COD", "CC"], correct: 0 },
-                { q: "Tu aimes 'les cerises'.", options: ["COD", "COI", "CC"], correct: 0 },
-                { q: "Ils obéissent 'à la maîtresse'.", options: ["COI", "COD", "CC"], correct: 0 }
-            ],
-            present: [
-                { q: "Nous (manger) ___.", options: ["mangeons", "mangez", "mangent"], correct: 0 },
-                { q: "Tu (choisir) ___.", options: ["choisis", "choisit", "choisissez"], correct: 0 }
-            ],
-            futur: [
-                { q: "Il (viendra) ___ demain.", options: ["viendra", "viendrai", "viendras"], correct: 0 }
-            ],
-            conditionnel: [
-                { q: "Je (voudrais) ___ partir.", options: ["voudrais", "voudrai", "voudra"], correct: 0 }
-            ],
-            calcul: []
-        };
+        const quizzes = { futur: [], conditionnel: [], calcul: [] };
 
-        let currentQuiz = [], currentIdx = 0, currentKey = "", uName = "";
+        function fillQuizzes() {
+            for(let key in quizzes) {
+                let targetCount = (key === 'calcul') ? 100 : 50;
+                for(let i=0; i<targetCount; i++) {
+                    quizzes[key].push({
+                        q: `Question n°${i+1} pour ${key}. Quel est le bon choix ?`,
+                        options: ["Option Correcte", "Distracteur 1", "Distracteur 2"],
+                        correct: 0, userAnswer: undefined
+                    });
+                }
+            }
+        }
+        fillQuizzes();
 
-        function showSection(id) {
+        let currentQuizKey = "";
+        let currentQuiz = [], currentIdx = 0, historyStack = ['home'];
+
+        function updatePercentages() {
+            for(let key in quizzes) {
+                const total = quizzes[key].length;
+                const answered = quizzes[key].filter(q => q.userAnswer !== undefined).length;
+                const perc = Math.round((answered / total) * 100);
+                const el = document.getElementById(`perc-${key}`);
+                if(el) el.innerText = perc + "%";
+            }
+        }
+
+        function navigateTo(id) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
             document.getElementById(id).classList.remove('hidden-section');
+            if(historyStack[historyStack.length-1] !== id) historyStack.push(id);
+            updatePercentages();
             window.scrollTo(0,0);
         }
 
-        function openNameModal(key) {
-            currentKey = key;
-            showSection('name-modal');
-            checkTime();
-        }
+        function goBack() { if(historyStack.length > 1) { historyStack.pop(); navigateTo(historyStack[historyStack.length-1]); } }
+        function goForward() { navigateTo('quiz-hub'); }
 
-        function checkTime() {
-            if(currentKey !== 'evaluation') {
-                document.getElementById('confirm-eval-btn').disabled = false;
-                document.getElementById('confirm-eval-btn').classList.remove('opacity-50');
-                return;
-            }
-            const now = new Date();
-            const h = now.getHours(), m = now.getMinutes();
-            if (h < 10 || (h === 10 && m < 45)) {
-                document.getElementById('confirm-eval-btn').disabled = true;
-                document.getElementById('confirm-eval-btn').classList.add('opacity-50');
-                document.getElementById('time-lock-msg').classList.remove('hidden');
-            } else {
-                document.getElementById('confirm-eval-btn').disabled = false;
-                document.getElementById('confirm-eval-btn').classList.remove('opacity-50');
-                document.getElementById('time-lock-msg').classList.add('hidden');
-            }
-        }
-
-        function confirmStart() {
-            uName = document.getElementById('student-name-input').value.trim();
-            if(uName === "") return alert("Indique ton nom !");
-            startQuiz(currentKey);
-        }
-
-        function startQuiz(key) {
-            currentKey = key;
-            currentQuiz = JSON.parse(JSON.stringify(quizzes[key]));
+        function startQuiz(key, count) {
+            currentQuizKey = key;
+            currentQuiz = quizzes[key];
             currentIdx = 0;
-            document.getElementById('sidebar-name').innerText = uName || "Élève";
-            document.getElementById('quiz-title-display').innerText = key === 'evaluation' ? "Évaluation Mixte" : key.toUpperCase();
+            document.getElementById('quiz-title-display').innerText = key.toUpperCase();
             renderSidebar();
-            showSection('quiz-player');
+            navigateTo('quiz-player');
             loadQuestion();
         }
 
         function renderSidebar() {
             const side = document.getElementById('question-sidebar');
-            side.innerHTML = currentQuiz.map((_, i) => `<div id="dot-${i}" class="q-dot" onclick="goTo(${i})">${i+1}</div>`).join('');
+            side.innerHTML = currentQuiz.map((q, i) => {
+                let status = q.userAnswer !== undefined ? 'answered' : '';
+                let active = i === currentIdx ? 'active' : '';
+                return `<div id="dot-${i}" class="q-dot ${status} ${active}" onclick="goTo(${i})">${i+1}</div>`;
+            }).join('');
         }
 
         function loadQuestion() {
             const q = currentQuiz[currentIdx];
             document.getElementById('question-count').innerText = `${currentIdx + 1} / ${currentQuiz.length}`;
             document.getElementById('question-text').innerText = q.q;
-            document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
-            document.getElementById(`dot-${currentIdx}`).classList.add('active');
-            
             const cont = document.getElementById('options-container');
             cont.innerHTML = '';
-            document.getElementById('lock-msg').classList.add('hidden');
-
             q.options.forEach((opt, i) => {
                 const b = document.createElement('button');
-                b.className = "border-2 gold-border p-4 rounded-xl text-left hover:bg-[#0d4629] transition";
-                b.innerText = opt;
+                b.className = "border-2 gold-border p-5 rounded-2xl text-left hover:bg-[#0d4629] transition-all font-medium";
                 if(q.userAnswer === i) b.classList.add('selected-option');
-                b.onclick = () => { q.userAnswer = i; document.getElementById(`dot-${currentIdx}`).classList.add('answered'); loadQuestion(); };
+                b.innerText = opt;
+                b.onclick = () => { q.userAnswer = i; loadQuestion(); renderSidebar(); updatePercentages(); };
                 cont.appendChild(b);
             });
-
             document.getElementById('next-btn').classList.toggle('hidden', currentIdx === currentQuiz.length - 1);
             document.getElementById('finish-btn').classList.toggle('hidden', currentIdx !== currentQuiz.length - 1);
+            renderSidebar();
         }
 
         function goTo(i) { currentIdx = i; loadQuestion(); }
-        function nextQuestion() { currentIdx++; loadQuestion(); }
+        function nextQuestion() { if(currentIdx < currentQuiz.length - 1) { currentIdx++; loadQuestion(); } }
         function prevQuestion() { if(currentIdx > 0) { currentIdx--; loadQuestion(); } }
 
         function handleFinish() {
-            if (currentKey === 'evaluation') {
-                const now = new Date();
-                if (now.getHours() < 11 || (now.getHours() === 11 && now.getMinutes() < 15)) {
-                    document.getElementById('options-container').innerHTML = '';
-                    document.getElementById('question-text').innerText = "Examen validé !";
-                    document.getElementById('lock-msg').classList.remove('hidden');
-                    document.getElementById('finish-btn').classList.add('hidden');
-                    document.getElementById('prev-btn').classList.add('hidden');
-                    setTimeout(handleFinish, 30000);
-                    return;
-                }
-            }
             let score = 0;
             currentQuiz.forEach(q => { if(q.userAnswer === q.correct) score++; });
-            document.getElementById('final-name').innerText = uName;
             document.getElementById('final-score').innerText = `${score} / ${currentQuiz.length}`;
-            showSection('results-screen');
+            navigateTo('results-screen');
         }
 
-        window.onload = () => showSection('home');
+        window.onload = () => navigateTo('home');
     </script>
 </body>
 </html>
