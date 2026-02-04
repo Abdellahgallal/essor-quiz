@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESSOR - Excellence Scolaire</title>
+    <title>ESSOR - Excellence Scolaire | Quiz 6ème Primaire</title>
+    <meta name="description" content="Entraînement intensif pour la 6ème année primaire. 100+ questions de conjugaison et calcul mental.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -16,16 +18,14 @@
         .selected-option { background-color: #C5A059 !important; color: #062214 !important; border-color: white !important; }
         .correct { background-color: #10B981 !important; color: white !important; border-color: #10B981 !important; }
         .incorrect { background-color: #EF4444 !important; color: white !important; border-color: #EF4444 !important; }
-        
         .q-dot { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid #C5A059; cursor: pointer; font-size: 0.75rem; transition: 0.3s; }
         .q-dot.active { background-color: #C5A059; color: #062214; font-weight: bold; border-color: white; }
         .q-dot.answered { border-color: #10B981; color: #10B981; }
-
         .fade-in { animation: fadeIn 0.5s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #C5A059; border-radius: 10px; }
+        .content-block { max-width: 900px; margin: 0 auto; line-height: 1.8; color: #e2e8f0; text-align: left; }
     </style>
 </head>
 <body>
@@ -40,7 +40,7 @@
                 <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059] transition">Accueil</a>
                 <a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059] transition">Quiz</a>
                 <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059] transition">À propos</a>
-                <a href="javascript:void(0)" onclick="showSection('contact')" class="hover:text-[#C5A059] transition">Contact</a>
+                <a href="javascript:void(0)" onclick="showSection('privacy')" class="hover:text-[#C5A059] transition">Confidentialité</a>
             </nav>
             <div class="md:hidden">
                 <button onclick="toggleMenu()" class="text-white"><i class="fas fa-bars"></i></button>
@@ -50,64 +50,86 @@
             <a href="javascript:void(0)" onclick="showSection('home')" class="hover:text-[#C5A059]">Accueil</a>
             <a href="javascript:void(0)" onclick="showSection('quiz-hub')" class="hover:text-[#C5A059]">Quiz</a>
             <a href="javascript:void(0)" onclick="showSection('about')" class="hover:text-[#C5A059]">À propos</a>
-            <a href="javascript:void(0)" onclick="showSection('contact')" class="hover:text-[#C5A059]">Contact</a>
+            <a href="javascript:void(0)" onclick="showSection('privacy')" class="hover:text-[#C5A059]">Confidentialité</a>
         </nav>
     </header>
 
-    <section id="home" class="p-10 min-h-[60vh] flex flex-col items-center justify-center text-center fade-in">
-        <h1 class="text-5xl md:text-6xl font-bold gold-text mb-6">Prêt pour l'Excellence ?</h1>
-        <p class="text-xl max-w-2xl text-gray-200 mb-8">Des quiz intensifs pour réussir votre 6ème année primaire.</p>
-        <button onclick="showSection('quiz-hub')" class="gold-bg text-black font-bold py-4 px-12 rounded-full text-xl hover:scale-105 transition shadow-lg">Choisir une matière</button>
-    </section>
+    <main>
+        <section id="home" class="p-10 min-h-[60vh] flex flex-col items-center justify-center text-center fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold gold-text mb-6">Prêt pour l'Excellence ?</h1>
+            <p class="text-xl max-w-2xl text-gray-200 mb-8">Révisez votre programme de 6ème année avec nos 150 questions interactives conçues pour la réussite au Maroc.</p>
+            <button onclick="showSection('quiz-hub')" class="gold-bg text-black font-bold py-4 px-12 rounded-full text-xl hover:scale-105 transition shadow-lg mb-8">Commencer les Quiz</button>
+        </section>
 
-    <section id="quiz-hub" class="hidden-section container mx-auto py-16 px-6 fade-in text-center">
-        <h2 class="text-3xl font-bold gold-text mb-10">Matières Scolaires</h2>
-        <div id="subjects-container" class="flex flex-col gap-6 max-w-2xl mx-auto"></div>
-    </section>
+        <section id="quiz-hub" class="hidden-section container mx-auto py-16 px-6 fade-in text-center">
+            <h2 class="text-3xl font-bold gold-text mb-10">Matières Scolaires</h2>
+            <div id="subjects-container" class="flex flex-col gap-6 max-w-2xl mx-auto"></div>
+        </section>
 
-    <section id="french-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
-        <h2 class="text-3xl font-bold gold-text mb-10">Français</h2>
-        <div class="flex flex-col gap-4 max-w-xs mx-auto">
-            <button onclick="startQuiz('conditionnel')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Conditionnel Présent</button>
-            <button onclick="startQuiz('futur')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Futur Simple</button>
-            <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-4 underline">Retour</button>
-        </div>
-    </section>
-
-    <section id="maths-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
-        <h2 class="text-3xl font-bold gold-text mb-10">Mathématiques</h2>
-        <div class="flex flex-col gap-4 max-w-xs mx-auto">
-            <button onclick="startQuiz('calcul')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Calcul Mental (100 Q)</button>
-            <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-4 underline">Retour</button>
-        </div>
-    </section>
-
-    <section id="quiz-player" class="hidden-section container mx-auto py-8 px-4 fade-in">
-        <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
-            <div class="lg:w-1/4 bg-[#0a351f] border gold-border p-4 rounded-2xl h-fit">
-                <h3 id="sidebar-title" class="gold-text font-bold mb-4 text-center border-b border-gray-700 pb-2 italic text-sm">Questions</h3>
-                <div id="question-sidebar" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-[450px] p-2 custom-scrollbar"></div>
-                <button onclick="restartCurrentQuiz()" class="w-full mt-6 gold-border border text-xs py-2 rounded hover:gold-bg hover:text-black transition uppercase font-bold">
-                    <i class="fas fa-sync-alt mr-2"></i>Recommencer
-                </button>
+        <section id="french-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
+            <h2 class="text-3xl font-bold gold-text mb-10">Français (Grammaire & Conjugaison)</h2>
+            <div class="flex flex-col gap-4 max-w-xs mx-auto">
+                <button onclick="startQuiz('conditionnel')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Conditionnel Présent (50 Q)</button>
+                <button onclick="startQuiz('futur')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Futur Simple (50 Q)</button>
+                <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-4 underline">Retour</button>
             </div>
+        </section>
 
-            <div class="lg:w-3/4 bg-[#0a351f] border-2 gold-border p-8 rounded-2xl shadow-2xl relative">
-                <div class="flex justify-between items-center mb-6">
-                    <span id="quiz-title" class="gold-text font-bold uppercase text-sm"></span>
-                    <span id="question-count" class="text-gray-400 font-bold"></span>
+        <section id="maths-menu" class="hidden-section container mx-auto py-16 px-6 text-center fade-in">
+            <h2 class="text-3xl font-bold gold-text mb-10">Mathématiques</h2>
+            <div class="flex flex-col gap-4 max-w-xs mx-auto">
+                <button onclick="startQuiz('calcul')" class="border-2 gold-border py-4 rounded-xl font-bold hover:bg-[#C5A059] hover:text-black transition">Calcul Mental (100 Q)</button>
+                <button onclick="showSection('quiz-hub')" class="text-gray-400 mt-4 underline">Retour</button>
+            </div>
+        </section>
+
+        <section id="quiz-player" class="hidden-section container mx-auto py-8 px-4 fade-in">
+            <div class="flex flex-col lg:flex-row gap-8 max-w-6xl mx-auto">
+                <div class="lg:w-1/4 bg-[#0a351f] border gold-border p-4 rounded-2xl h-fit">
+                    <h3 id="sidebar-title" class="gold-text font-bold mb-4 text-center border-b border-gray-700 pb-2 italic text-sm">Progression</h3>
+                    <div id="question-sidebar" class="grid grid-cols-5 gap-2 overflow-y-auto max-h-[400px] p-2 custom-scrollbar"></div>
+                    <button onclick="restartCurrentQuiz()" class="w-full mt-6 gold-border border text-xs py-2 rounded hover:gold-bg hover:text-black transition uppercase font-bold">Recommencer</button>
                 </div>
-                <p id="question-text" class="text-2xl mb-8 font-semibold min-h-[80px]"></p>
-                <div id="options-container" class="flex flex-col gap-4"></div>
-                <p id="feedback" class="mt-6 text-center font-bold text-xl h-8"></p>
-                <div class="flex justify-between gap-4 mt-10">
-                    <button id="prev-btn" onclick="prevQuestion()" class="flex-1 border-2 gold-border text-white py-4 rounded-xl hover:bg-gray-800 transition"><i class="fas fa-chevron-left mr-2"></i> Précédent</button>
-                    <button id="validate-btn" onclick="validateAnswer()" class="flex-[2] bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition">Valider</button>
-                    <button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 transition">Suivant <i class="fas fa-chevron-right ml-2"></i></button>
+                <div class="lg:w-3/4 bg-[#0a351f] border-2 gold-border p-8 rounded-2xl shadow-2xl relative">
+                    <div class="flex justify-between items-center mb-6">
+                        <span id="quiz-title" class="gold-text font-bold uppercase text-sm"></span>
+                        <span id="question-count" class="text-gray-400 font-bold"></span>
+                    </div>
+                    <p id="question-text" class="text-2xl mb-8 font-semibold min-h-[80px]"></p>
+                    <div id="options-container" class="flex flex-col gap-4"></div>
+                    <p id="feedback" class="mt-6 text-center font-bold text-xl h-8"></p>
+                    <div class="flex justify-between gap-4 mt-10">
+                        <button id="prev-btn" onclick="prevQuestion()" class="flex-1 border-2 gold-border py-4 rounded-xl hover:bg-gray-800">Précédent</button>
+                        <button id="validate-btn" onclick="validateAnswer()" class="flex-[2] bg-blue-600 font-bold py-4 rounded-xl hover:bg-blue-700">Valider</button>
+                        <button id="next-btn" onclick="nextQuestion()" class="flex-1 bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200">Suivant</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section id="about" class="hidden-section container mx-auto py-16 px-6 fade-in">
+            <h2 class="text-3xl font-bold gold-text mb-8 text-center">À propos d'ESSOR</h2>
+            <div class="content-block bg-[#0a351f] p-8 rounded-2xl border gold-border shadow-xl">
+                <p class="mb-4 text-lg"><strong>ESSOR - Excellence Scolaire</strong> est une plateforme éducative dédiée à la réussite des élèves de la <strong>6ème année primaire au Maroc</strong>. Notre mission est de fournir des outils numériques modernes et gratuits pour faciliter l'apprentissage.</p>
+                <p class="mb-4">Dans un monde de plus en plus connecté, nous croyons que l'entraînement interactif permet une meilleure mémorisation des règles de grammaire, de conjugaison et des mécanismes de calcul mental.</p>
+                <p class="mb-4">Chaque quiz présent sur ce site est rigoureusement élaboré pour correspondre aux exigences du programme national. Que vous soyez élève, parent ou enseignant, ESSOR est votre partenaire pour transformer les révisions en un moment de plaisir et de défi.</p>
+                <p>Pour toute suggestion ou partenariat, n'hésitez pas à nous contacter via les coordonnées fournies en bas de page.</p>
+            </div>
+        </section>
+
+        <section id="privacy" class="hidden-section container mx-auto py-16 px-6 fade-in">
+            <h2 class="text-3xl font-bold gold-text mb-8 text-center">Politique de Confidentialité</h2>
+            <div class="content-block bg-[#0a351f] p-8 rounded-2xl border gold-border shadow-xl text-sm">
+                <p class="mb-4">Chez ESSOR, accessible depuis notre site web, la confidentialité de nos visiteurs est une priorité. Ce document détaille les types d'informations collectées et la manière dont nous les utilisons.</p>
+                <h4 class="font-bold gold-text mt-4 mb-2 uppercase">1. Cookies et Google AdSense</h4>
+                <p class="mb-4">Nous utilisons des cookies pour améliorer votre expérience. En tant que fournisseur tiers, Google utilise des cookies (comme le cookie DART) pour diffuser des annonces basées sur votre visite sur ce site et d'autres sites Internet.</p>
+                <h4 class="font-bold gold-text mt-4 mb-2 uppercase">2. Données collectées</h4>
+                <p class="mb-4">Nous ne collectons aucune donnée personnelle nominative (nom, adresse) sans votre consentement. Les scores de quiz sont stockés localement sur votre navigateur (LocalStorage) et ne nous sont pas transmis.</p>
+                <h4 class="font-bold gold-text mt-4 mb-2 uppercase">3. Consentement</h4>
+                <p>En utilisant notre site web, vous consentez par la présente à notre politique de confidentialité et acceptez ses conditions.</p>
+            </div>
+        </section>
+    </main>
 
     <footer class="bg-[#062214] border-t-4 border-[#C5A059] pt-16 pb-8 mt-20">
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
@@ -133,12 +155,120 @@
     </footer>
 
     <script>
+        // DONNÉES ÉTENDUES (Inchangées)
+        const quizData = {
+            conditionnel: [
+                { q: "Si j'avais le temps, je (finir) ___ mes devoirs.", options: ["finirais", "finirai", "finis"], correct: 0, userAnswer: null },
+                { q: "Tu (vouloir) ___ un peu d'eau ?", options: ["voudras", "voudrais", "veux"], correct: 1, userAnswer: null },
+                { q: "Nous (être) ___ heureux de vous voir.", options: ["serions", "serons", "sommes"], correct: 0, userAnswer: null },
+                { q: "Elle (avoir) ___ besoin d'aide s'il pleuvait.", options: ["aurait", "aura", "avait"], correct: 0, userAnswer: null },
+                { q: "Vous (pouvoir) ___ m'aider ?", options: ["pourriez", "pourrez", "pouvez"], correct: 0, userAnswer: null },
+                { q: "Ils (aller) ___ au stade s'il faisait beau.", options: ["iraient", "iront", "vont"], correct: 0, userAnswer: null },
+                { q: "Si tu étudiais, tu (réussir) ___.", options: ["réussirais", "réussiras", "réussis"], correct: 0, userAnswer: null },
+                { q: "On (dire) ___ qu'il va neiger.", options: ["dirait", "dira", "dit"], correct: 0, userAnswer: null },
+                { q: "Je (prendre) ___ un café.", options: ["prendrais", "prendrai", "prends"], correct: 0, userAnswer: null },
+                { q: "Si nous mangions trop, nous (être) ___ malades.", options: ["serions", "serons", "sommes"], correct: 0, userAnswer: null },
+                { q: "Elles (faire) ___ un gâteau si elles avaient de la farine.", options: ["feraient", "feront", "font"], correct: 0, userAnswer: null },
+                { q: "Vous (devoir) ___ faire plus attention.", options: ["devriez", "devrez", "devez"], correct: 0, userAnswer: null },
+                { q: "Si elle partait tôt, elle (arriver) ___ à l'heure.", options: ["arriverait", "arrivera", "arrive"], correct: 0, userAnswer: null },
+                { q: "Je (savoir) ___ quoi faire à ta place.", options: ["saurais", "saurai", "sais"], correct: 0, userAnswer: null },
+                { q: "Tu (boire) ___ un jus de pomme ?", options: ["boirais", "boiras", "bois"], correct: 0, userAnswer: null },
+                { q: "Nous (jouer) ___ dehors s'il ne pleuvait pas.", options: ["jouerions", "jouerons", "jouons"], correct: 0, userAnswer: null },
+                { q: "Il (mettre) ___ son manteau s'il faisait froid.", options: ["mettrait", "mettra", "met"], correct: 0, userAnswer: null },
+                { q: "Si vous lisiez, vous (apprendre) ___ beaucoup.", options: ["apprendriez", "apprendrez", "apprenez"], correct: 0, userAnswer: null },
+                { q: "Ils (venir) ___ s'ils étaient invités.", options: ["viendraient", "viendront", "viennent"], correct: 0, userAnswer: null },
+                { q: "Je (vouloir) ___ partir en vacances.", options: ["voudrais", "voudrai", "veux"], correct: 0, userAnswer: null },
+                { q: "Si tu courais, tu (arriver) ___ le premier.", options: ["arriverais", "arriveras", "arrives"], correct: 0, userAnswer: null },
+                { q: "Elle (choisir) ___ la robe rouge.", options: ["choisirait", "choisira", "choisit"], correct: 0, userAnswer: null },
+                { q: "Nous (manger) ___ bien une glace.", options: ["mangerions", "mangerons", "mangeons"], correct: 0, userAnswer: null },
+                { q: "Vous (écrire) ___ une lettre ?", options: ["écririez", "écrirez", "écrivez"], correct: 0, userAnswer: null },
+                { q: "Il (partir) ___ demain s'il le pouvait.", options: ["partirait", "partira", "part"], correct: 0, userAnswer: null },
+                { q: "Si j'avais un chien, je (promener) ___ chaque jour.", options: ["promènerais", "promènerai", "promène"], correct: 0, userAnswer: null },
+                { q: "Tu (attendre) ___ le bus ?", options: ["attendrais", "attendras", "attends"], correct: 0, userAnswer: null },
+                { q: "Ils (voir) ___ mieux avec des lunettes.", options: ["verraient", "verront", "voient"], correct: 0, userAnswer: null },
+                { q: "Elle (dire) ___ la vérité s'il le fallait.", options: ["dirait", "dira", "dit"], correct: 0, userAnswer: null },
+                { q: "Nous (recevoir) ___ nos amis.", options: ["recevrions", "recevrons", "recevons"], correct: 0, userAnswer: null },
+                { q: "Si vous partiez, je (être) ___ triste.", options: ["serais", "serai", "suis"], correct: 0, userAnswer: null },
+                { q: "Tu (croire) ___ à cette histoire ?", options: ["croirais", "croiras", "crois"], correct: 0, userAnswer: null },
+                { q: "Il (falloir) ___ réviser davantage.", options: ["faudrait", "faudra", "faut"], correct: 0, userAnswer: null },
+                { q: "Ils (conduire) ___ prudemment.", options: ["conduiraient", "conduiront", "conduisent"], correct: 0, userAnswer: null },
+                { q: "Je (répondre) ___ si je connaissais la réponse.", options: ["répondrais", "répondrai", "réponds"], correct: 0, userAnswer: null },
+                { q: "Nous (sortir) ___ ce soir s'il faisait beau.", options: ["sortirions", "sortirons", "sortons"], correct: 0, userAnswer: null },
+                { q: "Elle (vendre) ___ sa voiture s'il le fallait.", options: ["vendrait", "vendra", "vend"], correct: 0, userAnswer: null },
+                { q: "Vous (dormir) ___ mieux sans bruit.", options: ["dormiriez", "dormirez", "dormez"], correct: 0, userAnswer: null },
+                { q: "Tu (finir) ___ ton repas ?", options: ["finirais", "finiras", "finis"], correct: 0, userAnswer: null },
+                { q: "Il (perdre) ___ son chemin sans carte.", options: ["perdrait", "perdra", "perds"], correct: 0, userAnswer: null },
+                { q: "Nous (prendre) ___ le train s'il y avait des places.", options: ["prendrions", "prendrons", "prenons"], correct: 0, userAnswer: null },
+                { q: "Je (chanter) ___ si j'avais une belle voix.", options: ["chanterais", "chanterai", "chante"], correct: 0, userAnswer: null },
+                { q: "Ils (descendre) ___ l'escalier.", options: ["descendraient", "descendront", "descendent"], correct: 0, userAnswer: null },
+                { q: "Si tu voulais, tu (aider) ___ ta mère.", options: ["aiderais", "aideras", "aides"], correct: 0, userAnswer: null },
+                { q: "Elle (offrir) ___ un cadeau.", options: ["offrirait", "offrira", "offre"], correct: 0, userAnswer: null },
+                { q: "Vous (rire) ___ de cette blague.", options: ["ririez", "rirez", "riez"], correct: 0, userAnswer: null },
+                { q: "Ils (battre) ___ le record.", options: ["battraient", "battront", "battent"], correct: 0, userAnswer: null },
+                { q: "Je (préparer) ___ le dîner.", options: ["préparerais", "préparerai", "prépare"], correct: 0, userAnswer: null },
+                { q: "Tu (courir) ___ le marathon ?", options: ["courrais", "courras", "cours"], correct: 0, userAnswer: null },
+                { q: "Elle (partager) ___ son gâteau.", options: ["partagerait", "partagera", "partage"], correct: 0, userAnswer: null }
+            ],
+            futur: [
+                { q: "Demain, je (manger) ___ à la cantine.", options: ["mangerai", "mangerais", "mange"], correct: 0, userAnswer: null },
+                { q: "Tu (finir) ___ tes devoirs ce soir.", options: ["finiras", "finirais", "finis"], correct: 0, userAnswer: null },
+                { q: "Il (aller) ___ au parc dimanche.", options: ["ira", "irait", "va"], correct: 0, userAnswer: null },
+                { q: "Nous (avoir) ___ un examen demain.", options: ["aurons", "aurions", "avons"], correct: 0, userAnswer: null },
+                { q: "Vous (être) ___ en vacances bientôt.", options: ["serez", "seriez", "êtes"], correct: 0, userAnswer: null },
+                { q: "Ils (faire) ___ du sport demain.", options: ["feront", "feraient", "font"], correct: 0, userAnswer: null },
+                { q: "Je (prendre) ___ mon sac.", options: ["prendrai", "prendrais", "prends"], correct: 0, userAnswer: null },
+                { q: "Tu (dire) ___ la vérité.", options: ["diras", "dirais", "dis"], correct: 0, userAnswer: null },
+                { q: "Elle (partir) ___ à huit heures.", options: ["partira", "partirait", "part"], correct: 0, userAnswer: null },
+                { q: "Nous (voir) ___ un film samedi.", options: ["verrons", "verrions", "voyons"], correct: 0, userAnswer: null },
+                { q: "Vous (pouvoir) ___ sortir plus tard.", options: ["pourrez", "pourriez", "pouvez"], correct: 0, userAnswer: null },
+                { q: "Ils (vouloir) ___ manger des fruits.", options: ["voudront", "voudraient", "veulent"], correct: 0, userAnswer: null },
+                { q: "Je (savoir) ___ ma leçon demain.", options: ["saurai", "saurais", "sais"], correct: 0, userAnswer: null },
+                { q: "Tu (venir) ___ me voir ?", options: ["viendras", "viendrais", "viens"], correct: 0, userAnswer: null },
+                { q: "Il (devoir) ___ travailler dur.", options: ["devra", "devrait", "doit"], correct: 0, userAnswer: null },
+                { q: "Nous (écrire) ___ une poésie.", options: ["écrirons", "écririons", "écrivons"], correct: 0, userAnswer: null },
+                { q: "Elle (recevoir) ___ une lettre.", options: ["recevra", "recevrait", "reçoit"], correct: 0, userAnswer: null },
+                { q: "Ils (mettre) ___ leurs chaussures.", options: ["mettront", "mettraient", "mettent"], correct: 0, userAnswer: null },
+                { q: "Je (jouer) ___ du piano.", options: ["jouerai", "jouerais", "joue"], correct: 0, userAnswer: null },
+                { q: "Tu (boire) ___ du lait.", options: ["boiras", "boirais", "bois"], correct: 0, userAnswer: null },
+                { q: "Il (croire) ___ en ses rêves.", options: ["croira", "croirait", "croit"], correct: 0, userAnswer: null },
+                { q: "Nous (courir) ___ vite.", options: ["courrons", "courrions", "courons"], correct: 0, userAnswer: null },
+                { q: "Vous (lire) ___ ce livre.", options: ["lirez", "liriez", "lisez"], correct: 0, userAnswer: null },
+                { q: "Ils (sortir) ___ ce soir.", options: ["sortiront", "sortiraient", "sortent"], correct: 0, userAnswer: null },
+                { q: "Je (donner) ___ un cadeau.", options: ["donnerai", "donnerais", "donne"], correct: 0, userAnswer: null },
+                { q: "Tu (attendre) ___ ton frère.", options: ["attendras", "attendrais", "attends"], correct: 0, userAnswer: null },
+                { q: "Elle (répondre) ___ au téléphone.", options: ["répondra", "répondrait", "répond"], correct: 0, userAnswer: null },
+                { q: "Nous (chanter) ___ ensemble.", options: ["chanterons", "chanterions", "chantons"], correct: 0, userAnswer: null },
+                { q: "Vous (dormir) ___ chez votre cousin.", options: ["dormirez", "dormiriez", "dormez"], correct: 0, userAnswer: null },
+                { q: "Ils (apprendre) ___ le français.", options: ["apprendront", "apprendraient", "apprennent"], correct: 0, userAnswer: null },
+                { q: "Je (finir) ___ ma soupe.", options: ["finirai", "finirais", "finis"], correct: 0, userAnswer: null },
+                { q: "Tu (choisir) ___ un parfum.", options: ["choisiras", "choisirais", "choisis"], correct: 0, userAnswer: null },
+                { q: "Il (vivre) ___ au Maroc.", options: ["vivra", "vivrait", "vit"], correct: 0, userAnswer: null },
+                { q: "Nous (partager) ___ le gâteau.", options: ["partagerons", "partagerions", "partageons"], correct: 0, userAnswer: null },
+                { q: "Vous (comprendre) ___ l'exercice.", options: ["comprendrez", "comprendriez", "comprenez"], correct: 0, userAnswer: null },
+                { q: "Ils (envoyer) ___ un message.", options: ["enverront", "enverraient", "envoient"], correct: 0, userAnswer: null },
+                { q: "Je (descendre) ___ l'escalier.", options: ["descendrai", "descendrais", "descends"], correct: 0, userAnswer: null },
+                { q: "Tu (battre) ___ ton ami au jeu.", options: ["battras", "battrais", "bats"], correct: 0, userAnswer: null },
+                { q: "Il (perdre) ___ ses clés.", options: ["perdra", "perdrait", "perd"], correct: 0, userAnswer: null },
+                { q: "Nous (conduire) ___ prudemment.", options: ["conduirons", "conduirions", "conduisons"], correct: 0, userAnswer: null },
+                { q: "Vous (vendre) ___ votre vélo.", options: ["vendrez", "vendriez", "vendez"], correct: 0, userAnswer: null },
+                { q: "Ils (peindre) ___ le mur.", options: ["peindront", "peindraient", "peignent"], correct: 0, userAnswer: null },
+                { q: "Je (dormir) ___ tôt.", options: ["dormirai", "dormirais", "dors"], correct: 0, userAnswer: null },
+                { q: "Tu (rire) ___ de cette blague.", options: ["riras", "rirais", "ris"], correct: 0, userAnswer: null },
+                { q: "Elle (ouvrir) ___ la fenêtre.", options: ["ouvrira", "ouvrirait", "ouvre"], correct: 0, userAnswer: null },
+                { q: "Nous (offrir) ___ des fleurs.", options: ["offrirons", "offririons", "offrons"], correct: 0, userAnswer: null },
+                { q: "Vous (suivre) ___ le guide.", options: ["suivrez", "suivriez", "suivez"], correct: 0, userAnswer: null },
+                { q: "Ils (mourir) ___ de soif.", options: ["mourront", "mourraient", "meurent"], correct: 0, userAnswer: null },
+                { q: "Je (courir) ___ le marathon.", options: ["courrai", "courrais", "cours"], correct: 0, userAnswer: null },
+                { q: "L'année prochaine, nous (être) ___ au collège.", options: ["serons", "serions", "sommes"], correct: 0, userAnswer: null }
+            ],
+            calcul: []
+        };
+
         const subjectsConfig = [
             { id: 'french', title: 'Français', icon: 'fa-language', action: "showSection('french-menu')" },
             { id: 'maths', title: 'Mathématiques', icon: 'fa-calculator', action: "showSection('maths-menu')" }
         ];
 
-        // GÉNÉRATION CALCUL MENTAL (100 QUESTIONS CLAIRES)
         const generateMathQuiz = () => {
             const math = [];
             for(let i=1; i<=100; i++) {
@@ -147,122 +277,52 @@
                 else if(i <= 60) { op='-'; a=Math.floor(Math.random()*100+50); b=Math.floor(Math.random()*50); res=a-b; }
                 else if(i <= 90) { op='×'; a=Math.floor(Math.random()*10+2); b=Math.floor(Math.random()*9+2); res=a*b; }
                 else { op='÷'; b=Math.floor(Math.random()*9+2); res=Math.floor(Math.random()*10+1); a=res*b; }
-                
                 const opts = [res, res + (Math.random() > 0.5 ? 2 : 10), res - (Math.random() > 0.5 ? 1 : 5)].sort(() => Math.random() - 0.5);
                 math.push({ q: `Calcule : ${a} ${op} ${b} = ?`, options: opts.map(String), correct: opts.indexOf(res), userAnswer: null });
             }
             return math;
         };
 
-        const quizData = {
-            conditionnel: [
-                { q: "Si j'avais faim, je (manger) ___ une pomme.", options: ["mangerais", "mangerai", "mangeais"], correct: 0, userAnswer: null },
-                { q: "Tu (vouloir) ___ m'aider s'il te plaît ?", options: ["voudras", "voudrais", "voulais"], correct: 1, userAnswer: null },
-                { q: "Nous (aller) ___ à la plage s'il faisait beau.", options: ["irions", "irons", "allons"], correct: 0, userAnswer: null },
-                { q: "Elle (être) ___ ravie de vous voir.", options: ["sera", "serait", "était"], correct: 1, userAnswer: null },
-                { q: "Vous (pouvoir) ___ m'indiquer le chemin ?", options: ["pourriez", "pourrez", "pouviez"], correct: 0, userAnswer: null },
-                { q: "Ils (finir) ___ leur travail s'ils le pouvaient.", options: ["finiraient", "finiront", "finissent"], correct: 0, userAnswer: null },
-                { q: "Je (prendre) ___ bien un thé chaud.", options: ["prendrai", "prendrais", "prenais"], correct: 1, userAnswer: null },
-                { q: "Si tu étudiais, tu (réussir) ___ ton examen.", options: ["réussirais", "réussirai", "réussis"], correct: 0, userAnswer: null },
-                { q: "On (dire) ___ qu'il va pleuvoir.", options: ["dira", "dirait", "disait"], correct: 1, userAnswer: null },
-                { q: "Nous (aimer) ___ visiter le zoo.", options: ["aimerions", "aimerons", "aimions"], correct: 0, userAnswer: null },
-                { q: "Ils (devoir) ___ faire plus attention.", options: ["devraient", "devront", "doivent"], correct: 0, userAnswer: null },
-                { q: "Si elle avait de l'argent, elle (acheter) ___ un vélo.", options: ["achèterait", "achètera", "achetait"], correct: 0, userAnswer: null },
-                { q: "Vous (avoir) ___ besoin d'aide ?", options: ["auriez", "aurez", "aviez"], correct: 0, userAnswer: null },
-                { q: "Je (savoir) ___ quoi faire à ta place.", options: ["saurai", "saurais", "savais"], correct: 1, userAnswer: null },
-                { q: "Le chat (dormir) ___ toute la journée.", options: ["dormira", "dormirait", "dort"], correct: 1, userAnswer: null },
-                { q: "Nous (partir) ___ demain s'il le fallait.", options: ["partirions", "partirons", "partions"], correct: 0, userAnswer: null },
-                { q: "Tu (faire) ___ mieux de te taire.", options: ["feras", "ferais", "faisais"], correct: 1, userAnswer: null },
-                { q: "Elles (venir) ___ si elles étaient invitées.", options: ["viendraient", "viendront", "viennent"], correct: 0, userAnswer: null },
-                { q: "On (croire) ___ voir un fantôme.", options: ["croirait", "croira", "croyait"], correct: 0, userAnswer: null },
-                { q: "Si j'étais roi, je (donner) ___ tout aux pauvres.", options: ["donnerai", "donnerais", "donnais"], correct: 1, userAnswer: null },
-                { q: "Vous (mettre) ___ ce manteau ?", options: ["mettriez", "mettrez", "mettiez"], correct: 0, userAnswer: null },
-                { q: "Il (pleuvoir) ___ s'il y avait des nuages.", options: ["pleuvrait", "pleuvra", "pleuvait"], correct: 0, userAnswer: null },
-                { q: "Nous (boire) ___ un jus d'orange.", options: ["boirions", "boirons", "buvons"], correct: 0, userAnswer: null },
-                { q: "Tu (recevoir) ___ une lettre bientôt.", options: ["recevrais", "recevras", "recevais"], correct: 0, userAnswer: null },
-                { q: "Ils (voir) ___ mieux avec des lunettes.", options: ["verraient", "verront", "voyaient"], correct: 0, userAnswer: null },
-                { q: "Je (vouloir) ___ une glace au chocolat.", options: ["voudrais", "voudrai", "voulais"], correct: 0, userAnswer: null },
-                { q: "Si nous courions, nous (arriver) ___ à l'heure.", options: ["arriverions", "arriverons", "arrivions"], correct: 0, userAnswer: null },
-                { q: "Elle (choisir) ___ la robe bleue.", options: ["choisirait", "choisira", "choisissait"], correct: 0, userAnswer: null },
-                { q: "Vous (sortir) ___ ce soir ?", options: ["sortiriez", "sortirez", "sortiez"], correct: 0, userAnswer: null },
-                { q: "Ils (jouer) ___ s'il n'y avait pas d'école.", options: ["joueraient", "joueront", "jouaient"], correct: 0, userAnswer: null },
-                { q: "Je (lire) ___ ce livre avec plaisir.", options: ["lirais", "lirai", "lisais"], correct: 0, userAnswer: null },
-                { q: "Tu (attendre) ___ le bus ?", options: ["attendrais", "attendras", "attendais"], correct: 0, userAnswer: null },
-                { q: "Nous (écrire) ___ une lettre au directeur.", options: ["écririons", "écrirons", "écrivions"], correct: 0, userAnswer: null },
-                { q: "Elle (dire) ___ la vérité.", options: ["dirait", "dira", "disait"], correct: 0, userAnswer: null },
-                { q: "Vous (tenir) ___ la porte ?", options: ["tiendriez", "tiendrez", "teniez"], correct: 0, userAnswer: null },
-                { q: "Ils (conduire) ___ prudemment.", options: ["conduiraient", "conduiront", "conduisaient"], correct: 0, userAnswer: null },
-                { q: "Je (répondre) ___ si je savais.", options: ["répondrais", "répondrai", "répondais"], correct: 0, userAnswer: null },
-                { q: "Tu (apprendre) ___ tes leçons.", options: ["apprendrais", "apprendras", "apprenais"], correct: 0, userAnswer: null },
-                { q: "Nous (ouvrir) ___ la fenêtre.", options: ["ouvririons", "ouvrirons", "ouvrions"], correct: 0, userAnswer: null },
-                { q: "Il (descendre) ___ l'escalier.", options: ["descendrait", "descendra", "descendait"], correct: 0, userAnswer: null },
-                { q: "Vous (vivre) ___ au Maroc ?", options: ["vivriez", "vivrez", "viviez"], correct: 0, userAnswer: null },
-                { q: "Ils (partager) ___ leur repas.", options: ["partageraient", "partageront", "partageaient"], correct: 0, userAnswer: null },
-                { q: "Je (perdre) ___ mon chemin.", options: ["perdrais", "perdrai", "perdais"], correct: 0, userAnswer: null },
-                { q: "Tu (chanter) ___ avec nous ?", options: ["chanterais", "chanteras", "chantais"], correct: 0, userAnswer: null },
-                { q: "Nous (comprendre) ___ mieux avec un schéma.", options: ["comprendrions", "comprendrons", "comprenions"], correct: 0, userAnswer: null },
-                { q: "Elle (parler) ___ à son professeur.", options: ["parlerait", "parlera", "parlait"], correct: 0, userAnswer: null },
-                { q: "Vous (finir) ___ votre assiette.", options: ["finiriez", "finirez", "finissiez"], correct: 0, userAnswer: null },
-                { q: "Ils (marcher) ___ dans la forêt.", options: ["marcheraient", "marcheront", "marchaient"], correct: 0, userAnswer: null },
-                { q: "Je (revenir) ___ bientôt.", options: ["reviendrais", "reviendrai", "revenais"], correct: 0, userAnswer: null },
-                { q: "Si tout s'arrêtait, que (faire) ___ -tu ?", options: ["ferais", "feras", "faisais"], correct: 0, userAnswer: null }
-            ],
-            futur: [
-                { q: "Demain, nous (aller) ___ au cinéma.", options: ["irons", "irions", "allons"], correct: 0, userAnswer: null },
-                { q: "L'année prochaine, tu (être) ___ en 1ère année collège.", options: ["seras", "serais", "es"], correct: 0, userAnswer: null },
-                { q: "Le mois prochain, ils (avoir) ___ leurs résultats.", options: ["auront", "auraient", "ont"], correct: 0, userAnswer: null },
-                { q: "Je (finir) ___ mes devoirs ce soir.", options: ["finirai", "finirais", "finis"], correct: 0, userAnswer: null },
-                { q: "Elle (faire) ___ un beau dessin demain.", options: ["fera", "ferait", "fait"], correct: 0, userAnswer: null },
-                { q: "Vous (manger) ___ chez votre grand-mère dimanche.", options: ["mangerez", "mangeriez", "mangez"], correct: 0, userAnswer: null },
-                { q: "Il (pleuvoir) ___ peut-être cet après-midi.", options: ["pleuvra", "pleuvrait", "pleut"], correct: 0, userAnswer: null },
-                { q: "Nous (prendre) ___ le train de huit heures.", options: ["prendrons", "prendrions", "prenons"], correct: 0, userAnswer: null },
-                { q: "Tu (voir) ___ ce film bientôt.", options: ["verras", "verrais", "vois"], correct: 0, userAnswer: null },
-                { q: "Elles (venir) ___ nous voir la semaine prochaine.", options: ["viendront", "viendraient", "viennent"], correct: 0, userAnswer: null },
-                { q: "Je (pouvoir) ___ sortir quand j'aurai fini.", options: ["pourrai", "pourrais", "peux"], correct: 0, userAnswer: null },
-                { q: "Il (envoyer) ___ une lettre à son ami.", options: ["enverra", "enverrait", "envoie"], correct: 0, userAnswer: null },
-                { q: "Nous (savoir) ___ la vérité demain.", options: ["saurons", "saurions", "savons"], correct: 0, userAnswer: null },
-                { q: "Tu (vouloir) ___ bien m'aider plus tard ?", options: ["voudras", "voudrais", "veux"], correct: 0, userAnswer: null },
-                { q: "Ils (dire) ___ bonjour à tout le monde.", options: ["diront", "diraient", "disent"], correct: 0, userAnswer: null },
-                { q: "Elle (partir) ___ en vacances en juillet.", options: ["partira", "partirait", "part"], correct: 0, userAnswer: null },
-                { q: "Vous (recevoir) ___ un cadeau pour votre anniversaire.", options: ["recevrez", "recevriez", "recevez"], correct: 0, userAnswer: null },
-                { q: "Je (mettre) ___ mon nouveau manteau.", options: ["mettrai", "mettrais", "mets"], correct: 0, userAnswer: null },
-                { q: "Il (falloir) ___ réviser sérieusement.", options: ["faudra", "faudrait", "faut"], correct: 0, userAnswer: null },
-                { q: "Nous (devoir) ___ partir tôt demain.", options: ["devrons", "devrions", "devons"], correct: 0, userAnswer: null },
-                { q: "Tu (écrire) ___ une poésie.", options: ["écriras", "écrirais", "écris"], correct: 0, userAnswer: null },
-                { q: "Elles (courir) ___ le marathon.", options: ["courront", "courraient", "courent"], correct: 0, userAnswer: null },
-                { q: "Je (boire) ___ un verre d'eau.", options: ["boirai", "boirais", "bois"], correct: 0, userAnswer: null },
-                { q: "Il (tenir) ___ sa promesse.", options: ["tiendra", "tiendrait", "tient"], correct: 0, userAnswer: null },
-                { q: "Nous (conduire) ___ la nouvelle voiture.", options: ["conduirons", "conduirions", "conduisons"], correct: 0, userAnswer: null },
-                { q: "Vous (lire) ___ ce roman.", options: ["lirez", "liriez", "lisez"], correct: 0, userAnswer: null },
-                { q: "Ils (attendre) ___ le bus scolaire.", options: ["attendront", "attendraient", "attendent"], correct: 0, userAnswer: null },
-                { q: "Je (répondre) ___ au téléphone.", options: ["répondrai", "répondrais", "réponds"], correct: 0, userAnswer: null },
-                { q: "Tu (choisir) ___ un parfum.", options: ["choisiras", "choisirais", "choisis"], correct: 0, userAnswer: null },
-                { q: "Elle (croire) ___ à cette histoire.", options: ["croira", "croirait", "croit"], correct: 0, userAnswer: null },
-                { q: "Nous (vivre) ___ des moments heureux.", options: ["vivrons", "vivrions", "vivons"], correct: 0, userAnswer: null },
-                { q: "Ils (mourir) ___ de rire.", options: ["mourront", "mourraient", "meurent"], correct: 0, userAnswer: null },
-                { q: "Je (dormir) ___ chez mon ami.", options: ["dormirai", "dormirais", "dors"], correct: 0, userAnswer: null },
-                { q: "Il (perdre) ___ ses clés.", options: ["perdra", "perdrait", "perd"], correct: 0, userAnswer: null },
-                { q: "Vous (dire) ___ la vérité.", options: ["direz", "diriez", "dites"], correct: 0, userAnswer: null },
-                { q: "Nous (sortir) ___ ce soir.", options: ["sortirons", "sortirions", "sortons"], correct: 0, userAnswer: null },
-                { q: "Tu (entendre) ___ ce bruit.", options: ["entendras", "entendrais", "entends"], correct: 0, userAnswer: null },
-                { q: "Elle (connaître) ___ la réponse.", options: ["connaîtra", "connaîtrait", "connaît"], correct: 0, userAnswer: null },
-                { q: "Je (descendre) ___ l'escalier.", options: ["descendrai", "descendrais", "descends"], correct: 0, userAnswer: null },
-                { q: "Il (battre) ___ le record.", options: ["battra", "battrait", "bat"], correct: 0, userAnswer: null },
-                { q: "Nous (vendre) ___ notre maison.", options: ["vendrons", "vendrions", "vendons"], correct: 0, userAnswer: null },
-                { q: "Vous (peindre) ___ la cuisine.", options: ["peindrez", "peindriez", "peignez"], correct: 0, userAnswer: null },
-                { q: "Ils (construire) ___ un château.", options: ["construiront", "construiraient", "construisent"], correct: 0, userAnswer: null },
-                { q: "Je (mentir) ___ jamais.", options: ["mentirai", "mentirais", "mens"], correct: 0, userAnswer: null },
-                { q: "Tu (suivre) ___ ce chemin.", options: ["suivras", "suivrais", "suis"], correct: 0, userAnswer: null },
-                { q: "Elle (rire) ___ de bon cœur.", options: ["rira", "rirait", "rit"], correct: 0, userAnswer: null },
-                { q: "Nous (partager) ___ le gâteau.", options: ["partagerons", "partagerions", "partageons"], correct: 0, userAnswer: null },
-                { q: "Ils (jouer) ___ au football.", options: ["joueront", "joueraient", "jouent"], correct: 0, userAnswer: null },
-                { q: "Je (chanter) ___ une chanson.", options: ["chanterai", "chanterais", "chante"], correct: 0, userAnswer: null },
-                { q: "Tu (nager) ___ dans la piscine.", options: ["nageras", "nagerais", "nages"], correct: 0, userAnswer: null }
-            ],
-            calcul: generateMathQuiz()
-        };
+        quizData.calcul = generateMathQuiz();
 
         let currentQuizKey = '', currentQuiz = [], currentQuestionIndex = 0;
+
+        // --- NOUVELLE GESTION DE L'HISTORIQUE ---
+        window.onpopstate = function(event) {
+            if (event.state) {
+                if (event.state.section === 'quiz-player') {
+                    currentQuestionIndex = event.state.index;
+                    renderSidebar();
+                    document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+                    document.getElementById('quiz-player').classList.remove('hidden-section');
+                    loadQuestion(false);
+                } else {
+                    showSection(event.state.section, false);
+                }
+            } else {
+                showSection('home', false);
+            }
+        };
+
+        function showSection(id, push = true) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById(id).classList.remove('hidden-section');
+            if(id === 'quiz-hub') renderSubjects();
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo(0,0);
+            if(push) history.pushState({section: id}, "", `#${id}`);
+        }
+
+        function startQuiz(type) {
+            currentQuizKey = type;
+            currentQuiz = quizData[type];
+            currentQuestionIndex = 0;
+            document.getElementById('sidebar-title').innerText = `Questions (1-${currentQuiz.length})`;
+            renderSidebar();
+            showSection('quiz-player');
+            document.getElementById('quiz-title').innerText = type.replace('_',' ').toUpperCase();
+            loadQuestion();
+        }
 
         function renderSubjects() {
             const container = document.getElementById('subjects-container');
@@ -278,36 +338,18 @@
             }).join('');
         }
 
-        function showSection(id) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
-            document.getElementById(id).classList.remove('hidden-section');
-            if(id === 'quiz-hub') renderSubjects();
-            document.getElementById('mobile-menu').classList.add('hidden');
-            window.scrollTo(0,0);
-        }
-
-        function startQuiz(type) {
-            currentQuizKey = type;
-            currentQuiz = quizData[type];
-            currentQuestionIndex = 0;
-            document.getElementById('sidebar-title').innerText = `Questions (1-${currentQuiz.length})`;
-            renderSidebar();
-            showSection('quiz-player');
-            document.getElementById('quiz-title').innerText = type.replace('_',' ').toUpperCase();
-            loadQuestion();
-        }
-
         function renderSidebar() {
             const sidebar = document.getElementById('question-sidebar');
             sidebar.innerHTML = currentQuiz.map((q, i) => `<div id="dot-${i}" class="q-dot ${q.userAnswer!==null?'answered':''}" onclick="goToQuestion(${i})">${i+1}</div>`).join('');
         }
 
-        function loadQuestion() {
+        function loadQuestion(push = true) {
             const q = currentQuiz[currentQuestionIndex];
             document.getElementById('question-count').innerText = `${currentQuestionIndex + 1} / ${currentQuiz.length}`;
             document.getElementById('question-text').innerText = q.q;
             document.querySelectorAll('.q-dot').forEach(d => d.classList.remove('active'));
-            document.getElementById(`dot-${currentQuestionIndex}`).classList.add('active');
+            const dot = document.getElementById(`dot-${currentQuestionIndex}`);
+            if(dot) dot.classList.add('active');
             
             const container = document.getElementById('options-container');
             container.innerHTML = '';
@@ -326,6 +368,8 @@
             });
             document.getElementById('prev-btn').style.visibility = currentQuestionIndex === 0 ? 'hidden' : 'visible';
             document.getElementById('validate-btn').style.display = q.userAnswer === null ? 'block' : 'none';
+            
+            if(push) history.pushState({section: 'quiz-player', index: currentQuestionIndex}, "", `#q${currentQuestionIndex+1}`);
         }
 
         function validateAnswer() {
@@ -335,7 +379,7 @@
             document.getElementById(`dot-${currentQuestionIndex}`).classList.add('answered');
             document.getElementById('feedback').innerText = q.userAnswer === q.correct ? "Excellent ! ✅" : "Mauvaise réponse ! ❌";
             document.getElementById('feedback').style.color = q.userAnswer === q.correct ? "#10B981" : "#EF4444";
-            loadQuestion();
+            loadQuestion(false);
         }
 
         function nextQuestion() { if(currentQuestionIndex < currentQuiz.length-1) { currentQuestionIndex++; loadQuestion(); } else { alert("Félicitations ! Quiz terminé."); showSection('quiz-hub'); } }
