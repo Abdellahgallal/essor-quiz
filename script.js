@@ -1,178 +1,221 @@
-// --- GÉNÉRATION DES QUESTIONS ---
-function generateVerbQuestions() {
-    const subjects = [
-        { s: "Je", e1: "e", e2: "is", f: "ai", c: "ais" },
-        { s: "Tu", e1: "es", e2: "is", f: "as", c: "ais" },
-        { s: "Il/Elle", e1: "e", e2: "it", f: "a", c: "ait" },
-        { s: "Nous", e1: "ons", e2: "issons", f: "ons", c: "ions" },
-        { s: "Vous", e1: "ez", e2: "issez", f: "ez", c: "iez" },
-        { s: "Ils/Elles", e1: "ent", e2: "issent", f: "ont", c: "aient" }
+// --- GÉNÉRATION DES DONNÉES (250+ QUESTIONS) ---
+function generateData() {
+    const subjects = ["Je", "Tu", "Il/Elle", "Nous", "Vous", "Ils/Elles"];
+    
+    // Terminaisons Présent
+    const tPres1 = ["e", "es", "e", "ons", "ez", "ent"];
+    const tPres2 = ["is", "is", "it", "issons", "issez", "issent"];
+    
+    // Verbes 3ème groupe (Radicaux irréguliers)
+    const v3Pres = [
+        {v: "Prendre", r: ["prend", "prend", "prend", "pren", "pren", "prenn"], t: ["s", "s", "", "ons", "ez", "ent"]},
+        {v: "Vouloir", r: ["veu", "veu", "veu", "voul", "voul", "veul"], t: ["x", "x", "t", "ons", "ez", "ent"]},
+        {v: "Pouvoir", r: ["peu", "peu", "peu", "pouv", "pouv", "peuv"], t: ["x", "x", "t", "ons", "ez", "ent"]},
+        {v: "Faire", r: ["fai", "fai", "fai", "fais", "fai", "fo"], t: ["s", "s", "t", "ons", "tes", "nt"]},
+        {v: "Aller", r: ["vai", "va", "va", "all", "all", "vo"], t: ["s", "s", "", "ons", "ez", "nt"]}
     ];
 
-    const v1 = ["marcher", "chanter", "manger", "lancer", "jouer", "regarder", "aider", "arriver", "chercher", "écouter"];
-    const v2 = ["finir", "choisir", "bondir", "réussir", "grandir", "réfléchir", "punir", "remplir", "obéir", "bâtir"];
+    const res = { 
+        evalV1V2: [], evalV3: [], // Évaluations (30Q chacune)
+        futur: [], conditionnel: [], feelings: [], calcul: [] // Modules (250Q total)
+    };
 
-    const evalPresent = [];
+    // 1. GÉNÉRATION ÉVALUATION : PRÉSENT 1er & 2e GROUPE (30 Questions)
+    const v1 = ["Chanter", "Marcher", "Aimer", "Jouer", "Porter"];
+    const v2 = ["Finir", "Choisir", "Réussir", "Grandir", "Bâtir"];
     for(let i=0; i<30; i++) {
-        const isGroup1 = Math.random() > 0.5;
-        const verb = isGroup1 ? v1[i % v1.length] : v2[i % v2.length];
-        const sub = subjects[Math.floor(Math.random() * subjects.length)];
-        const rad = verb.slice(0, -2);
-        const correct = isGroup1 ? rad + sub.e1 : rad + sub.e2;
-        evalPresent.push({
-            q: `${sub.s} (${verb}) au présent.`,
-            options: shuffle([correct, rad + "er", rad + "ant", rad + (isGroup1 ? "ez" : "it")]),
-            correct: correct
+        const isV1 = i < 15;
+        const verb = isV1 ? v1[i % 5] : v2[i % 5];
+        const sIdx = i % 6;
+        const correct = isV1 ? verb.slice(0, -2) + tPres1[sIdx] : verb.slice(0, -2) + tPres2[sIdx];
+        res.evalV1V2.push({
+            q: `${subjects[sIdx]} (${verb}) au présent de l'indicatif.`,
+            options: shuffle([correct, verb + "er", correct + "s"]),
+            correct: correct,
+            exp: isV1 ? "1er groupe : -e, -es, -e, -ons, -ez, -ent" : "2e groupe : -is, -is, -it, -issons..."
         });
     }
 
-    const futur = [];
-    const conditionnel = [];
-    const allVerbs = [...v1, ...v2, "être", "avoir", "aller", "prendre"];
-    for(let i=0; i<50; i++) {
-        const verb = allVerbs[i % allVerbs.length];
-        const sub = subjects[Math.floor(Math.random() * subjects.length)];
-        let base = verb;
-        if(verb === "être") base = "ser";
-        else if(verb === "avoir") base = "aur";
-        else if(verb === "aller") base = "ir";
-        else if(verb === "prendre") base = "prendr";
-        
-        const fCorrect = (verb.length > 3 && !["être","avoir","aller","prendre"].includes(verb)) ? verb + sub.f : base + sub.f;
-        const cCorrect = (verb.length > 3 && !["être","avoir","aller","prendre"].includes(verb)) ? verb + sub.c : base + sub.c;
-
-        futur.push({ q: `Futur : ${sub.s} (${verb})`, options: shuffle([fCorrect, verb + "ait", base + "ons"]), correct: fCorrect });
-        conditionnel.push({ q: `Conditionnel : ${sub.s} (${verb})`, options: shuffle([cCorrect, verb + "ai", base + "ez"]), correct: cCorrect });
+    // 2. GÉNÉRATION ÉVALUATION : PRÉSENT 3e GROUPE (30 Questions)
+    for(let i=0; i<30; i++) {
+        const vObj = v3Pres[i % v3Pres.length];
+        const sIdx = i % 6;
+        const correct = vObj.r[sIdx] + vObj.t[sIdx];
+        res.evalV3.push({
+            q: `${subjects[sIdx]} (${vObj.v}) au présent de l'indicatif.`,
+            options: shuffle([correct, vObj.v.toLowerCase(), "allait"]),
+            correct: correct,
+            exp: "Le 3ème groupe a souvent des radicaux irréguliers."
+        });
     }
-    return { evalPresent, futur, conditionnel };
+
+    // 3. MODULE FUTUR SIMPLE (50 Questions)
+    const vFut = [{v:"Être",r:"ser"}, {v:"Avoir",r:"aur"}, {v:"Aller",r:"ir"}, {v:"Faire",r:"fer"}, {v:"Venir",r:"viendr"}];
+    for(let i=0; i<50; i++){
+        const v = vFut[i % 5]; const sIdx = i % 6; const t = ["ai","as","a","ons","ez","ont"][sIdx];
+        res.futur.push({ q: `${subjects[sIdx]} (${v.v}) au futur.`, options: shuffle([v.r+t, v.v+"er", v.r+"ais"]), correct: v.r+t, exp: "Radical futur + ai, as, a..." });
+    }
+
+    // 4. MODULE CONDITIONNEL (50 Questions)
+    for(let i=0; i<50; i++){
+        const v = vFut[i % 5]; const sIdx = i % 6; const t = ["ais","ais","ait","ions","iez","aient"][sIdx];
+        res.conditionnel.push({ q: `${subjects[sIdx]} (${v.v}) au conditionnel présent.`, options: shuffle([v.r+t, v.r+"ons", v.v+"ai"]), correct: v.r+t, exp: "Radical futur + terminaison imparfait." });
+    }
+
+    // 5. MODULE FEELINGS (50 Questions)
+    const feels = [["Happy","Heureux"], ["Sad","Triste"], ["Angry","En colère"], ["Hungry","Affamé"], ["Thirsty","Soif"]];
+    for(let i=0; i<50; i++){
+        const pair = feels[i % 5];
+        res.feelings.push({ q: `Anglais : Comment dit-on "${pair[1]}" ?`, options: shuffle([pair[0], "Bored", "Tired"]), correct: pair[0], exp: `Le mot est ${pair[0]}.` });
+    }
+
+    // 6. MODULE CALCUL MENTAL (100 Questions)
+    for(let i=0; i<100; i++){
+        const a = Math.floor(Math.random()*90)+10; const b = Math.floor(Math.random()*90)+10;
+        res.calcul.push({ q: `${a} + ${b} = ?`, options: shuffle([a+b, a+b+5, a+b-2]), correct: a+b, exp: "Addition simple." });
+    }
+
+    return res;
 }
 
 function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
 
-// --- VARIABLES ÉTAT ---
-const verbData = generateVerbQuestions();
-const allQuizzes = {
-    present: verbData.evalPresent,
-    futur: verbData.futur,
-    conditionnel: verbData.conditionnel,
-    calcul: []
+// --- LOGIQUE DE NAVIGATION ET ÉTAT ---
+const allQuizzes = generateData();
+let currentQuiz = [], currentIdx = 0, isEval = false, studentName = "";
+
+// Système de navigation compatible avec les flèches du navigateur (Chrome)
+window.navigateTo = function(id, addToHistory = true) {
+    document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+    const target = document.getElementById(id);
+    if (target) {
+        target.classList.remove('hidden-section');
+        // On ajoute l'ID à l'historique pour que Chrome active ses flèches
+        if (addToHistory) {
+            history.pushState({ sectionId: id }, "", `#${id}`);
+        }
+    }
+    window.scrollTo(0,0);
 };
 
-// Génération 100 calculs
-for(let i=0; i<100; i++) {
-    const n1 = Math.floor(Math.random() * 100), n2 = Math.floor(Math.random() * 100);
-    allQuizzes.calcul.push({ q: `${n1} + ${n2} = ?`, options: shuffle([n1+n2, n1+n2+5, n1+n2-2]), correct: n1+n2 });
-}
+// Gère le clic sur la flèche "Précédent" de Chrome
+window.onpopstate = function(event) {
+    if (event.state && event.state.sectionId) {
+        window.navigateTo(event.state.sectionId, false);
+    } else {
+        window.navigateTo('home', false);
+    }
+};
 
-let currentQuiz = [], currentKey = '', currentIdx = 0, isEval = false, studentName = "", timerInterval, timeLeft = 1800, historyStack = ['home'];
+window.checkAndStartEval = function(key) {
+    const input = document.getElementById('student-name-eval');
+    if(!input.value.trim()) return alert("Veuillez entrer votre NOM et PRÉNOM.");
+    studentName = input.value;
+    window.startQuiz(key, true);
+};
 
-// --- NAVIGATION ---
-function navigateTo(id) {
-    document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
-    document.getElementById(id).classList.remove('hidden-section');
-    if(historyStack[historyStack.length-1] !== id) historyStack.push(id);
-    window.scrollTo(0,0);
-}
-
-function goBack() { if(historyStack.length > 1) { historyStack.pop(); navigateTo(historyStack[historyStack.length-1]); } }
-
-// --- LOGIQUE QUIZ ---
-function checkAndStartEval() {
-    const input = document.getElementById('student-name');
-    if(!input.value.trim()) { alert("⚠️ Identification requise !"); return; }
-    studentName = input.value; startQuiz('present', true);
-}
-
-function startQuiz(key, evalMode = false) {
-    currentKey = key; currentQuiz = allQuizzes[key]; currentIdx = 0; isEval = evalMode;
-    document.getElementById('quiz-title-display').innerText = key.toUpperCase();
-    if(isEval) {
-        timeLeft = 1800; document.getElementById('timer-container').classList.remove('hidden');
-        timerInterval = setInterval(() => {
-            timeLeft--; let m = Math.floor(timeLeft/60), s = timeLeft%60;
-            document.getElementById('timer-display').innerText = `${m}:${s<10?'0':''}${s}`;
-            if(timeLeft <= 0) handleFinish();
-        }, 1000);
-    } else { clearInterval(timerInterval); document.getElementById('timer-container').classList.add('hidden'); }
-    loadQuestion(); navigateTo('quiz-player');
-}
+window.startQuiz = function(key, evalMode = false) {
+    currentQuiz = JSON.parse(JSON.stringify(allQuizzes[key])); 
+    currentIdx = 0;
+    isEval = evalMode;
+    document.getElementById('quiz-title-display').innerText = isEval ? "ÉVALUATION OFFICIELLE" : key.toUpperCase();
+    loadQuestion();
+    window.navigateTo('quiz-player');
+};
 
 function loadQuestion() {
     const q = currentQuiz[currentIdx];
-    document.getElementById('question-count').innerText = `${currentIdx + 1} / ${currentQuiz.length}`;
+    document.getElementById('question-count').innerText = `${currentIdx + 1}/${currentQuiz.length}`;
     document.getElementById('question-text').innerText = q.q;
+    
     const cont = document.getElementById('options-container');
-    const valContainer = document.getElementById('validate-container');
+    const valCont = document.getElementById('validate-container');
     cont.innerHTML = '';
-    valContainer.classList.toggle('hidden', isEval || q.validated);
+    
+    valCont.classList.toggle('hidden', isEval || q.validated);
 
     q.options.forEach(opt => {
-        const b = document.createElement('button');
-        b.className = "option-btn font-bold";
-        b.innerText = opt;
-        if(q.validated) {
-            b.classList.add('disabled');
-            if(opt == q.correct) b.classList.add('correct');
-            else if(opt == q.userAnswer) b.classList.add('wrong');
-        } else if(q.userAnswer == opt) b.classList.add('selected');
+        const btn = document.createElement('button');
+        btn.className = `option-btn ${q.userAnswer === opt ? 'selected' : ''}`;
         
-        b.onclick = () => { if(!q.validated) { q.userAnswer = opt; updateProgressDisplay(currentKey); loadQuestion(); renderSidebar(); } };
-        cont.appendChild(b);
+        if(q.validated || (isEval && q.userAnswer)) {
+            if(opt === q.correct) btn.classList.add('correct');
+            else if(opt === q.userAnswer) btn.classList.add('wrong');
+            btn.style.pointerEvents = "none";
+        }
+        
+        btn.innerText = opt;
+        btn.onclick = () => {
+            if(!q.validated) {
+                q.userAnswer = opt;
+                if(isEval) setTimeout(window.nextQuestion, 400); 
+                loadQuestion();
+            }
+        };
+        cont.appendChild(btn);
     });
+
     document.getElementById('next-btn').classList.toggle('hidden', currentIdx === currentQuiz.length - 1);
-    document.getElementById('finish-btn').classList.toggle('hidden', !isEval || currentIdx !== currentQuiz.length - 1);
+    document.getElementById('finish-btn').classList.toggle('hidden', currentIdx !== currentQuiz.length - 1);
     renderSidebar();
 }
 
-function validateAnswer() {
+window.validateAnswer = function() {
     const q = currentQuiz[currentIdx];
-    if(!q.userAnswer) return;
-    q.validated = true; updateProgressDisplay(currentKey); loadQuestion();
-}
-
-function handleFinish() {
-    clearInterval(timerInterval);
-    let score = 0; currentQuiz.forEach(q => { if(q.userAnswer == q.correct) score++; });
-    document.getElementById('result-student-name').innerText = studentName;
-    document.getElementById('final-score').innerText = `${score} / ${currentQuiz.length}`;
-    if(isEval) saveToLeaderboard(studentName, score, currentQuiz.length);
-    updateLeaderboardDisplay(); navigateTo('results-screen');
-}
-
-function updateProgressDisplay(key) {
-    const qList = allQuizzes[key];
-    const answered = qList.filter(q => q.userAnswer !== undefined).length;
-    const percent = Math.round((answered / qList.length) * 100);
-    const badge = document.getElementById(`prog-${key}`);
-    if(badge) badge.innerText = `${percent}%`;
-}
+    if(!q.userAnswer) return alert("Sélectionnez une réponse !");
+    q.validated = true;
+    loadQuestion();
+};
 
 function renderSidebar() {
-    document.getElementById('question-sidebar').innerHTML = currentQuiz.map((q, i) => {
-        let s = q.userAnswer !== undefined ? 'answered' : '';
-        return `<div class="q-dot ${s} ${i===currentIdx?'active':''}" onclick="goTo(${i})">${i+1}</div>`;
-    }).join('');
+    const side = document.getElementById('question-sidebar');
+    side.innerHTML = currentQuiz.map((q, i) => `
+        <div class="q-dot ${q.userAnswer ? 'answered' : ''} ${i === currentIdx ? 'active' : ''}" 
+             onclick="window.jumpTo(${i})">${i + 1}</div>
+    `).join('');
 }
 
-function goTo(i) { currentIdx = i; loadQuestion(); }
-function nextQuestion() { if(currentIdx < currentQuiz.length-1) { currentIdx++; loadQuestion(); } }
-function prevQuestion() { if(currentIdx > 0) { currentIdx--; loadQuestion(); } }
+window.jumpTo = (i) => { currentIdx = i; loadQuestion(); };
+window.nextQuestion = () => { if(currentIdx < currentQuiz.length-1) { currentIdx++; loadQuestion(); } };
+window.prevQuestion = () => { if(currentIdx > 0) { currentIdx--; loadQuestion(); } };
 
-// --- CLASSEMENT ---
-function saveToLeaderboard(name, score, total) {
-    let lb = JSON.parse(localStorage.getItem('essor_lb') || '[]');
-    lb.push({ name, score, total }); lb.sort((a,b) => b.score - a.score);
-    localStorage.setItem('essor_lb', JSON.stringify(lb.slice(0,10)));
+window.handleFinish = function() {
+    const score = currentQuiz.filter(q => q.userAnswer === q.correct).length;
+    document.getElementById('result-student-name').innerText = isEval ? studentName : "ENTRAÎNEMENT";
+    document.getElementById('final-score').innerText = `${score} / ${currentQuiz.length}`;
+    
+    if(isEval) {
+        let ranks = JSON.parse(localStorage.getItem('essor_rank') || '[]');
+        ranks.push({name: studentName, score, total: currentQuiz.length});
+        ranks.sort((a,b) => b.score - a.score);
+        localStorage.setItem('essor_rank', JSON.stringify(ranks.slice(0, 10)));
+    }
+    updateLeaderboard();
+    window.navigateTo('results-screen');
+};
+
+function updateLeaderboard() {
+    const ranks = JSON.parse(localStorage.getItem('essor_rank') || '[]');
+    const tableBody = document.getElementById('leaderboard-body');
+    if(tableBody) {
+        tableBody.innerHTML = ranks.map((r, i) => `
+            <tr class="rank-item ${i<3?'top-rank':''}">
+                <td class="p-3 gold-text font-black">#${i+1}</td>
+                <td class="p-3 uppercase text-sm">${r.name}</td>
+                <td class="p-3 text-right font-black">${r.score}/${r.total}</td>
+            </tr>
+        `).join('');
+    }
 }
 
-function updateLeaderboardDisplay() {
-    const lb = JSON.parse(localStorage.getItem('essor_lb') || '[]');
-    document.getElementById('leaderboard-body').innerHTML = lb.map((e,i) => `
-        <tr class="rank-item ${i===0?'top-rank':''}">
-            <td class="py-4 px-2 text-center font-black">${i+1}</td>
-            <td class="py-4 px-2 text-left font-bold uppercase text-[10px]">${e.name}</td>
-            <td class="py-4 px-2 text-right gold-text font-black">${e.score}/${e.total}</td>
-        </tr>`).join('');
-}
+// Fonction pour le bouton retour du header
+window.goBack = function() {
+    window.history.back();
+};
 
-window.onload = () => navigateTo('home');
+window.onload = () => {
+    updateLeaderboard();
+    // On initialise le premier état de l'historique
+    history.replaceState({ sectionId: 'home' }, "", "#home");
+    window.navigateTo('home', false);
+};
