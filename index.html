@@ -23,6 +23,7 @@
             </div>
             <nav class="hidden md:flex gap-10 font-bold uppercase text-xs tracking-widest">
                 <a href="javascript:void(0)" onclick="navigateTo('home')" class="hover:text-[#C5A059] transition">Accueil</a>
+                <a href="javascript:void(0)" onclick="navigateTo('eval-menu')" class="hover:text-[#C5A059] transition">Évaluations</a>
                 <a href="javascript:void(0)" onclick="navigateTo('quiz-hub')" class="hover:text-[#C5A059] transition">Quiz</a>
                 <a href="javascript:void(0)" onclick="navigateTo('about')" class="hover:text-[#C5A059] transition">À propos</a>
             </nav>
@@ -33,64 +34,64 @@
         <section id="home" class="p-10 min-h-[80vh] flex flex-col items-center justify-center text-center hero-gradient">
             <div class="mb-6 inline-block px-6 py-2 rounded-full border-2 border-[#C5A059] text-[#C5A059] text-xs font-black tracking-[0.3em] uppercase animate-pulse">Plateforme Officielle 6AP</div>
             <h1 class="text-6xl md:text-8xl font-bold mb-8 italic leading-none tracking-tighter">L'art de la <br><span class="gold-text">Réussite</span></h1>
-            <p class="text-lg md:text-2xl max-w-3xl text-gray-400 mb-12 font-light">Évaluations certifiées, entraînements illimités et suivi de performance pour les futurs lauréats.</p>
             <div class="flex flex-wrap justify-center gap-6">
-                <button onclick="navigateTo('quiz-hub')" class="gold-bg text-black font-black py-5 px-16 rounded-full text-xl btn-glow uppercase">Commencer</button>
+                <button onclick="navigateTo('eval-menu')" class="gold-bg text-black font-black py-5 px-16 rounded-full text-xl btn-glow uppercase">Évaluations</button>
+                <button onclick="navigateTo('quiz-hub')" class="border-2 gold-border gold-text font-black py-5 px-16 rounded-full text-xl btn-glow uppercase">Entraînement</button>
             </div>
         </section>
 
-        <section id="about" class="hidden-section container mx-auto py-20 px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-sm font-black gold-text uppercase tracking-[0.5em] mb-4">Notre Institution</h2>
-                    <h3 class="text-4xl md:text-6xl font-bold italic mb-6">L'Excellence au service de <br><span class="gold-text">l'Éducation</span></h3>
-                    <div class="w-24 h-1 gold-bg mx-auto"></div>
+        <section id="eval-menu" class="hidden-section container mx-auto py-20 px-6 text-center">
+            <h2 class="text-4xl font-black gold-text mb-16 uppercase tracking-widest italic">Espace Évaluations</h2>
+            <div class="max-w-md mx-auto mb-10">
+                <div class="bg-black/40 p-8 rounded-[2rem] border-2 border-dashed border-[#C5A059]">
+                    <label class="block text-xs uppercase gold-text font-black mb-3 tracking-[0.2em]">Identification Candidat</label>
+                    <input type="text" id="student-name-eval" placeholder="NOM ET PRÉNOM..." class="w-full bg-[#062214] border-2 gold-border rounded-2xl p-4 text-white text-center outline-none font-bold">
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                    <div class="about-card">
-                        <i class="fas fa-graduation-cap text-3xl gold-text mb-6"></i>
-                        <h4 class="text-xl font-bold mb-4 uppercase">Mission 6AP</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Préparer chaque élève avec rigueur aux examens de fin de cycle primaire.</p>
-                    </div>
-                    <div class="about-card">
-                        <i class="fas fa-laptop-code text-3xl gold-text mb-6"></i>
-                        <h4 class="text-xl font-bold mb-4 uppercase">Innovation</h4>
-                        <p class="text-gray-400 text-sm leading-relaxed">Utiliser des outils numériques interactifs pour rendre l'apprentissage plus stimulant.</p>
-                    </div>
-                    <div class="about-card">
-                        <i class="fas fa-trophy text-3xl gold-text mb-6"></i>
-                        <h4 class="text-xl font-bold mb-4 uppercase">Réussite</h4>
-                        <p class="text-gray-300 text-sm leading-relaxed font-semibold italic">"Un incubateur de réussite pour les futurs bacheliers."</p>
-                    </div>
-                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <button onclick="checkAndStartEval('evalV1V2')" class="bg-white/5 border-2 gold-border py-8 rounded-[2rem] font-black hover:bg-[#C5A059] hover:text-black transition-all flex justify-between px-10 items-center">
+                    <span class="text-left"><small class="block opacity-60">PRÉSENT</small>1er & 2e GROUPE</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <button onclick="checkAndStartEval('evalV3')" class="bg-[#C5A059] text-black border-2 gold-border py-8 rounded-[2rem] font-black flex justify-between px-10 items-center shadow-xl">
+                    <span class="text-left"><small class="block opacity-60">PRÉSENT</small>3e GROUPE (Essentiels)</span>
+                    <i class="fas fa-star"></i>
+                </button>
             </div>
         </section>
 
         <section id="quiz-hub" class="hidden-section container mx-auto py-20 px-6 text-center">
             <h2 class="text-4xl font-black gold-text mb-16 uppercase tracking-widest italic">Modules d'Excellence</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-                <div onclick="navigateTo('french-menu')" class="bg-[#0a351f] p-12 rounded-[3rem] border-2 gold-border cursor-pointer card-hover">
-                    <div class="w-20 h-20 gold-bg rounded-2xl flex items-center justify-center mx-auto mb-6 text-black text-4xl shadow-lg"><i class="fas fa-pen-fancy"></i></div>
-                    <h3 class="text-3xl font-black uppercase mb-2">Français</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+                <div onclick="navigateTo('french-menu')" class="bg-[#0a351f] p-10 rounded-[3rem] border-2 gold-border cursor-pointer card-hover">
+                    <div class="w-16 h-16 gold-bg rounded-2xl flex items-center justify-center mx-auto mb-6 text-black text-3xl shadow-lg"><i class="fas fa-pen-fancy"></i></div>
+                    <h3 class="text-2xl font-black uppercase">Français</h3>
                 </div>
-                <div onclick="navigateTo('math-menu')" class="bg-[#0a351f] p-12 rounded-[3rem] border-2 gold-border cursor-pointer card-hover">
-                    <div class="w-20 h-20 gold-bg rounded-2xl flex items-center justify-center mx-auto mb-6 text-black text-4xl shadow-lg"><i class="fas fa-calculator"></i></div>
-                    <h3 class="text-3xl font-black uppercase mb-2">Maths</h3>
+                <div onclick="navigateTo('math-menu')" class="bg-[#0a351f] p-10 rounded-[3rem] border-2 gold-border cursor-pointer card-hover">
+                    <div class="w-16 h-16 gold-bg rounded-2xl flex items-center justify-center mx-auto mb-6 text-black text-3xl shadow-lg"><i class="fas fa-calculator"></i></div>
+                    <h3 class="text-2xl font-black uppercase">Maths</h3>
                 </div>
+                <div onclick="navigateTo('english-menu')" class="bg-[#0a351f] p-10 rounded-[3rem] border-2 gold-border cursor-pointer card-hover">
+                    <div class="w-16 h-16 gold-bg rounded-2xl flex items-center justify-center mx-auto mb-6 text-black text-3xl shadow-lg"><i class="fas fa-language"></i></div>
+                    <h3 class="text-2xl font-black uppercase">English</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="english-menu" class="hidden-section container mx-auto py-20 px-6 text-center">
+            <h2 class="text-3xl font-bold gold-text mb-10 italic uppercase">English Section</h2>
+            <div class="flex flex-col gap-6 max-w-md mx-auto">
+                <button onclick="startQuiz('feelings')" class="bg-white/5 border-2 gold-border py-8 rounded-[2rem] font-black hover:bg-[#C5A059] hover:text-black transition-all flex justify-between px-10 items-center">
+                    <span class="text-xl uppercase">Feelings & Emotions</span>
+                    <span id="prog-feelings" class="prog-badge">0%</span>
+                </button>
+                <div class="mt-12"><button onclick="navigateTo('quiz-hub')" class="back-btn-luxury">Retour</button></div>
             </div>
         </section>
 
         <section id="french-menu" class="hidden-section container mx-auto py-20 px-6 text-center">
             <h2 class="text-3xl font-bold gold-text mb-10 italic uppercase">Section Conjugaison</h2>
             <div class="flex flex-col gap-6 max-w-md mx-auto">
-                <div class="bg-black/40 p-8 rounded-[2rem] border-2 border-dashed border-[#C5A059] mb-4">
-                    <label class="block text-xs uppercase gold-text font-black mb-3 tracking-[0.2em]">Candidat (Nom/Prénom)</label>
-                    <input type="text" id="student-name" placeholder="ENTREZ VOTRE NOM..." class="w-full bg-[#062214] border-2 gold-border rounded-2xl p-4 text-white text-center outline-none font-bold">
-                </div>
-                <button onclick="checkAndStartEval()" class="bg-[#C5A059] text-black border-2 gold-border py-6 rounded-2xl font-black flex justify-between px-10 items-center shadow-2xl hover:bg-white transition-all">
-                    <span><i class="fas fa-star mr-3"></i>ÉVALUATION : PRÉSENT (1er & 2e Gr)</span>
-                </button>
-                <div class="text-gray-500 text-xs uppercase font-black tracking-[0.3em] mt-8 mb-4">Entraînement Libre</div>
                 <button onclick="startQuiz('futur')" class="bg-white/5 border-2 gold-border py-5 rounded-2xl font-bold hover:bg-[#C5A059] hover:text-black transition-all flex justify-between px-10 items-center">
                     <span>FUTUR SIMPLE</span>
                     <span id="prog-futur" class="prog-badge">0%</span>
@@ -99,7 +100,7 @@
                     <span>CONDITIONNEL PRÉSENT</span>
                     <span id="prog-conditionnel" class="prog-badge">0%</span>
                 </button>
-                <div class="mt-12"><button onclick="navigateTo('quiz-hub')" class="back-btn-luxury"><i class="fas fa-arrow-left"></i> Retour</button></div>
+                <div class="mt-12"><button onclick="navigateTo('quiz-hub')" class="back-btn-luxury">Retour</button></div>
             </div>
         </section>
 
@@ -110,7 +111,7 @@
                     <span class="text-xl uppercase">Série de 100 Calculs</span>
                     <span id="prog-calcul" class="prog-badge text-lg">0%</span>
                 </button>
-                <div class="mt-12"><button onclick="navigateTo('quiz-hub')" class="back-btn-luxury"><i class="fas fa-arrow-left"></i> Retour</button></div>
+                <div class="mt-12"><button onclick="navigateTo('quiz-hub')" class="back-btn-luxury">Retour</button></div>
             </div>
         </section>
 
@@ -123,14 +124,18 @@
                 <div class="lg:w-3/4 bg-[#0a351f] border-2 gold-border p-10 rounded-[3rem] shadow-2xl min-h-[550px] flex flex-col relative">
                     <div class="flex justify-between items-center mb-10 border-b border-gray-800 pb-6">
                         <span id="quiz-title-display" class="gold-text font-black uppercase text-sm"></span>
-                        <div id="timer-container" class="hidden"><span id="timer-display">30:00</span></div>
+                        <div id="timer-container" class="hidden"><span id="timer-display">20:00</span></div>
                         <span id="question-count" class="text-white font-black bg-[#C5A059]/20 px-5 py-2 rounded-full text-xs"></span>
                     </div>
                     <div id="question-content" class="flex-grow">
-                        <p id="question-text" class="text-3xl mb-12 font-bold leading-tight"></p>
+                        <p id="question-text" class="text-3xl mb-8 font-bold leading-tight"></p>
+                        <div id="explanation-box" class="hidden mb-6 bg-white/10 p-4 rounded-xl border-l-4 border-[#C5A059]">
+                            <p id="explanation-text" class="text-sm italic"></p>
+                        </div>
                         <div id="options-container" class="grid grid-cols-1 gap-4"></div>
+                        
                         <div id="validate-container" class="mt-12 hidden text-center">
-                            <button id="validate-btn" onclick="validateAnswer()" class="bg-[#C5A059] text-black font-black py-5 px-16 rounded-2xl uppercase btn-glow">Valider</button>
+                            <button id="validate-btn" onclick="validateAnswer()" class="bg-[#C5A059] text-black font-black py-5 px-16 rounded-2xl uppercase btn-glow">Valider la réponse</button>
                         </div>
                     </div>
                     <div class="flex justify-between gap-6 mt-12">
@@ -146,13 +151,13 @@
             <div class="max-w-3xl mx-auto bg-[#0a351f] border-2 gold-border p-10 md:p-16 rounded-[4rem] shadow-2xl">
                 <p id="result-student-name" class="gold-text mb-4 font-black text-2xl uppercase"></p>
                 <div class="text-7xl font-black gold-bg text-black py-8 rounded-[2rem] mb-12 inline-block px-16" id="final-score"></div>
-                <div class="mt-8 text-left">
+                <div class="mt-8 text-left" id="leaderboard-section">
                     <h3 class="gold-text font-black uppercase tracking-[0.3em] text-sm mb-6 text-center">Classement Top 10</h3>
                     <div class="bg-black/40 rounded-[2rem] p-6 border border-gray-800">
                         <table class="rank-table"><tbody id="leaderboard-body"></tbody></table>
                     </div>
                 </div>
-                <div class="mt-16"><button onclick="navigateTo('quiz-hub')" class="back-btn-luxury">Nouveau Test</button></div>
+                <div class="mt-16"><button onclick="navigateTo('home')" class="back-btn-luxury">Retour Accueil</button></div>
             </div>
         </section>
     </main>
